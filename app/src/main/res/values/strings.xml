@@ -8,7 +8,7 @@
     <string name="registry">ثبت نام</string>
     <string name="iHaveAccount">حساب کاربری دارم (ورود)</string>
     <string name="completeFields">لطفا تمام فیلدها را تکمیل نمائید</string>
-    <string name="worngRepeatPass">کلمه عبور با تکرار آن همخوانی ندارد</string>
+    <string name="unMatchRepeatPass">کلمه عبور با تکرار آن همخوانی ندارد</string>
     <string name="duplicate">ایمیل یا نام کاربری قبلا در سیستم ثبت شده است</string>
     <string name="fault">خطا در برقراری ارتباط</string>
     <string name="usernameText">نام کاربری</string>
