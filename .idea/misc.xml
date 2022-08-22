@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/account.xml" value="0.1475" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/key.xml" value="0.1475" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/light_cursor.xml" value="0.1475" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/act_login.xml" value="0.2546875" />
-        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/act_signup.xml" value="0.26875" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/act_signup.xml" value="0.23055555555555557" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/act_splash.xml" value="0.2546875" />
-        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/activity_main.xml" value="0.26875" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/activity_main.xml" value="0.2574074074074074" />
       </map>
     </option>
   </component>

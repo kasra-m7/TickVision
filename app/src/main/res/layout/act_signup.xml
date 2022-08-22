@@ -1,15 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primaryUltraLightColor"
     tools:context=".ActSignup">
 
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/signup_mtf_mail"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:mtf_cardCollapsedHeight="2dp"
+        app:mtf_image="@drawable/email"
+        app:mtf_openKeyboardOnFocus="true">
+
+        <EditText
+            android:id="@+id/signup_edt_mail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="@string/mailText"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:textColor="@color/primaryUltraLightColor"
+            android:textCursorDrawable="@drawable/light_cursor"
+            android:textSize="@dimen/normalTextSize"
+            tools:ignore="Autofill" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/signup_mtf_username"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_mtf_mail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:mtf_cardCollapsedHeight="2dp"
+        app:mtf_image="@drawable/account"
+        app:mtf_openKeyboardOnFocus="true">
+
+        <EditText
+            android:id="@+id/signup_edt_username"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="@string/usernameText"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/primaryUltraLightColor"
+            android:textCursorDrawable="@drawable/light_cursor"
+            android:textSize="@dimen/normalTextSize"
+            tools:ignore="Autofill" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/signup_mtf_password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_mtf_username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:mtf_cardCollapsedHeight="2dp"
+        app:mtf_image="@drawable/key"
+        app:mtf_openKeyboardOnFocus="true">
+
+        <EditText
+            android:id="@+id/signup_edt_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="@string/passwordText"
+            android:inputType="numberPassword"
+            android:singleLine="true"
+            android:textColor="@color/primaryUltraLightColor"
+            android:textCursorDrawable="@drawable/light_cursor"
+            android:textSize="@dimen/normalTextSize"
+            tools:ignore="Autofill" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/signup_mtf_repeat_password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_mtf_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:mtf_cardCollapsedHeight="2dp"
+        app:mtf_image="@drawable/key"
+        app:mtf_openKeyboardOnFocus="true">
+
+        <EditText
+            android:id="@+id/signup_edt_repeat_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="@string/RepeatPasswordText"
+            android:inputType="numberPassword"
+            android:singleLine="true"
+            android:textColor="@color/primaryUltraLightColor"
+            android:textCursorDrawable="@drawable/light_cursor"
+            android:textSize="@dimen/normalTextSize"
+            tools:ignore="Autofill" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="300dp"
+        android:layout_height="65dp"
+        android:layout_below="@id/signup_mtf_repeat_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/iran_sans_bold"
+        android:text="@string/registry"
+        android:textColor="@color/primaryUltraLightColor"
+        android:textSize="@dimen/smallTextSize"
+        tools:ignore="TextContrastCheck" />
+
     <TextView
+        android:id="@+id/btn_signup_to_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="ActSignup"
-        android:textSize="45sp"/>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/iran_sans"
+        android:text="@string/iHaveAccount"
+        android:textColor="@color/primaryColor"
+        android:textSize="@dimen/normalTextSize"
+        tools:ignore="TextContrastCheck" />
 
 </RelativeLayout>
