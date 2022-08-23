@@ -2,7 +2,6 @@ package ir.mahchegroup.vision;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,11 +11,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.github.florent37.materialtextfield.MaterialTextField;
-
 import java.util.ArrayList;
-
 import ir.mahchegroup.vision.message_box.SnackBar;
 import ir.mahchegroup.vision.network.GetUser;
 
@@ -25,13 +21,12 @@ public class ActLogin extends AppCompatActivity {
     private EditText edtUserMail, edtPassword;
     private Button btnLogin;
     private TextView btnLoginToSignup;
-    private Typeface tf, tfb;
+    private Typeface tf;
     private String userMail, password;
     private SnackBar snackBar;
     private CoordinatorLayout snackLayout;
     private GetUser getUser;
     private CheckBox rememberCheckBox;
-    private boolean isCheckedRemember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +43,7 @@ public class ActLogin extends AppCompatActivity {
 
 
         // تعیین وضعیت چک باکس مرا به خاطر بسپار به محض ورود به اکتیویتی
-        isCheckedRemember = ActSplash.shared.getBoolean(UserItems.IS_CHECKED_REMEMBER, false);
+        boolean isCheckedRemember = ActSplash.shared.getBoolean(UserItems.IS_CHECKED_REMEMBER, false);
         if (isCheckedRemember) {
             rememberCheckBox.setChecked(true);
             rememberCheckBox.setTextColor(getResources().getColor(R.color.primaryColor));
@@ -139,7 +134,6 @@ public class ActLogin extends AppCompatActivity {
     private void init() {
 
         tf = Typeface.createFromAsset(getAssets(), "font/iran_sans.ttf");
-        tfb = Typeface.createFromAsset(getAssets(), "font/iran_sans_bold.ttf");
 
         snackLayout = findViewById(R.id.snack_layout);
 
