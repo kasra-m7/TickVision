@@ -18,8 +18,8 @@
     <string name="rememberText">مرا به خاطر بسپار</string>
     <string name="forgetPassword">رمز خود را فراموش کرده ام</string>
     <string name="loginText">ورود به برنامه</string>
-    <string name="createAccount">ساخت حساب کاربری جدید</string>
-    <string name="wrongUser">نام کاربری یا ایمیل در سیستم وجود ندارد</string>
+    <string name="createAccount">ایجاد حساب کاربری جدید</string>
+    <string name="wrongUser">نام کاربری(ایمیل) یا کلمه عبور اشتباه است</string>
     <string name="pleaseWait">در حال برقراری ارتباط با سرور</string>
     <string name="dailyPerformance">عملکرد روزانه</string>
     <string name="dailyWorkingHours">ساعت کاکرد روزانه</string>

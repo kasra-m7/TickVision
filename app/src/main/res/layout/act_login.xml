@@ -3,13 +3,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActLogin">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ActLogin"
+    android:background="@color/primaryUltraLightColor"
+    android:layoutDirection="rtl">
 
-    <TextView
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/login_mtf_userMail"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:mtf_cardCollapsedHeight="2dp"
+        app:mtf_image="@drawable/account"
+        app:mtf_openKeyboardOnFocus="true">
+
+        <EditText
+            android:id="@+id/login_edt_userMail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="@string/userMailText"
+            android:textCursorDrawable="@drawable/light_cursor"
+            android:textColor="@color/primaryUltraLightColor"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:textSize="@dimen/normalTextSize"
+            tools:ignore="Autofill" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/login_mtf_password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_mtf_userMail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:mtf_cardCollapsedHeight="2dp"
+        app:mtf_image="@drawable/account"
+        app:mtf_openKeyboardOnFocus="true">
+
+        <EditText
+            android:id="@+id/login_edt_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textCursorDrawable="@drawable/light_cursor"
+            android:hint="@string/passwordText"
+            android:inputType="numberPassword"
+            android:singleLine="true"
+            android:textColor="@color/primaryUltraLightColor"
+            android:textSize="@dimen/normalTextSize"
+            tools:ignore="Autofill" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <CheckBox
+        android:id="@+id/remember_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="ActLogin"
-        android:textSize="45sp"/>
+        android:layout_below="@+id/login_mtf_password"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/iran_sans_bold"
+        android:paddingStart="5dp"
+        android:text="@string/rememberText"
+        android:textSize="@dimen/smallTextSize"
+        android:theme="@style/checkBox"
+        tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/btn_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forgetPassword"
+        android:textSize="@dimen/smallTextSize"
+        android:layout_below="@id/remember_check_box"
+        android:layout_marginStart="57dp"
+        android:textColor="@color/primaryColor"
+        android:fontFamily="@font/iran_sans_bold"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_forget_password"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/primaryUltraLightColor"
+        android:text="@string/loginText"
+        android:fontFamily="@font/iran_sans_bold"
+        android:textSize="@dimen/btnTextSize"/>
+
+    <TextView
+        android:id="@+id/btn_login_to_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/iran_sans_bold"
+        android:text="@string/createAccount"
+        android:textColor="@color/primaryColor"
+        android:textSize="@dimen/normalTextSize" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/snack_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

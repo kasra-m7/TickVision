@@ -31,12 +31,12 @@ public class SnackBar {
         view.setBackgroundColor(colorBackground);
 
         TextView txt = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        txt.setTextSize(this.ctx.getResources().getDimension(R.dimen.smallTextSize));
+        txt.setTextSize(ctx.getResources().getDimension(R.dimen.snackTextSize));
         txt.setTypeface(tfb);
         txt.setTextColor(colorText);
 
         TextView action = view.findViewById(com.google.android.material.R.id.snackbar_action);
-        action.setTextSize(this.ctx.getResources().getDimension(R.dimen.smallTextSize));
+        action.setTextSize(ctx.getResources().getDimension(R.dimen.snackTextSize));
         action.setTypeface(tf);
         action.setTextColor(colorAction);
     }

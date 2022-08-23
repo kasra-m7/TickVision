@@ -36,7 +36,10 @@ public class ActSignup extends AppCompatActivity {
         init();
 
 
-        setTypefaceMtf();
+        setTypefaceMtf(mtfMail);
+        setTypefaceMtf(mtfUsername);
+        setTypefaceMtf(mtfPassword);
+        setTypefaceMtf(mtfRepeatPassword);
 
 
         // رویداد کلیک دکمه حساب کاربری دارم
@@ -90,24 +93,10 @@ public class ActSignup extends AppCompatActivity {
         });
     }
 
-    private void setTypefaceMtf() {
-
-        mtfMail.getLabel().setTypeface(tf);
-        mtfMail.getLabel().setTextSize(getResources().getDimension(R.dimen.smallTextSize));
-        mtfMail.getLabel().setTextColor(getResources().getColor(R.color.disable));
-
-        mtfUsername.getLabel().setTypeface(tf);
-        mtfUsername.getLabel().setTextSize(getResources().getDimension(R.dimen.smallTextSize));
-        mtfUsername.getLabel().setTextColor(getResources().getColor(R.color.disable));
-
-        mtfPassword.getLabel().setTypeface(tf);
-        mtfPassword.getLabel().setTextSize(getResources().getDimension(R.dimen.smallTextSize));
-        mtfPassword.getLabel().setTextColor(getResources().getColor(R.color.disable));
-
-        mtfRepeatPassword.getLabel().setTypeface(tf);
-        mtfRepeatPassword.getLabel().setTextSize(getResources().getDimension(R.dimen.smallTextSize));
-        mtfRepeatPassword.getLabel().setTextColor(getResources().getColor(R.color.disable));
-
+    private void setTypefaceMtf(MaterialTextField mtf) {
+        mtf.getLabel().setTypeface(tf);
+        mtf.getLabel().setTextSize(getResources().getDimension(R.dimen.edtHintSize));
+        mtf.getLabel().setTextColor(getResources().getColor(R.color.disable));
     }
 
 
