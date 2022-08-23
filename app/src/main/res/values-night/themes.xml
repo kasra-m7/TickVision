@@ -23,4 +23,8 @@
         <item name="android:windowEnterAnimation">@anim/fade_in_dialog</item>
         <item name="android:windowExitAnimation">@anim/fade_out_dialog</item>
     </style>
+
+    <style name="toolbar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/primaryUltraLightColor</item>
+    </style>
 </resources>

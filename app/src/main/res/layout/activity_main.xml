@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:layoutDirection="rtl"
     tools:context=".MainActivity">
 
-    <include layout="@layout/toolbar_layout" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="15dp">
+
+        <include layout="@layout/toolbar_layout" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,10 +41,10 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginEnd="45dp"
             android:layout_below="@id/table_layout"
-            android:layout_marginTop="30dp">
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="45dp">
 
             <LinearLayout
                 android:id="@+id/receive_layout"
@@ -65,19 +72,83 @@
             android:src="@drawable/timer_off"
             tools:ignore="ContentDescription" />
 
-<!--        <com.nightonke.boommenu.BoomMenuButton-->
-<!--            android:id="@+id/bmb"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentStart="true"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_margin="20dp"-->
-<!--            android:layoutDirection="rtl"-->
-<!--            app:bmb_buttonEnum="ham"-->
-<!--            app:bmb_buttonPlaceEnum="buttonPlace_sc_3_2"-->
-<!--            app:bmb_normalColor="@color/primaryDarkColor"-->
-<!--            app:bmb_piecePlaceEnum="piecePlace_dot_3_2" />-->
+        <FrameLayout xmlns:fab="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <com.github.clans.fab.FloatingActionMenu
+                android:id="@+id/menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="60dp"
+                fab:menu_animationDelayPerItem="70"
+                fab:menu_buttonSpacing="10dp"
+                fab:menu_colorNormal="@color/primaryColor"
+                fab:menu_colorPressed="@color/primaryColor"
+                fab:menu_fab_size="normal"
+                fab:menu_icon="@drawable/fab_add"
+                fab:menu_labels_colorNormal="@color/primaryColor"
+                fab:menu_labels_colorPressed="@color/primaryColor"
+                fab:menu_labels_cornerRadius="3dp"
+                fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+                fab:menu_labels_paddingBottom="8dp"
+                fab:menu_labels_paddingLeft="15dp"
+                fab:menu_labels_paddingRight="15dp"
+                fab:menu_labels_paddingTop="8dp"
+                fab:menu_labels_position="left"
+                fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+                fab:menu_labels_showShadow="true"
+                fab:menu_labels_singleLine="true"
+                fab:menu_labels_textColor="@color/primaryUltraLightColor"
+                fab:menu_labels_textSize="14sp"
+                fab:menu_openDirection="down"
+                fab:menu_shadowColor="#66000000"
+                fab:menu_shadowRadius="3dp"
+                fab:menu_showShadow="true">
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/add_vision"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add_vision"
+                    fab:fab_colorNormal="@color/primaryColor"
+                    fab:fab_colorPressed="@color/primaryColor"
+                    fab:fab_label="@string/addVision"
+                    fab:fab_size="mini" />
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/select_vision"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/select_vision"
+                    fab:fab_colorNormal="@color/primaryColor"
+                    fab:fab_colorPressed="@color/primaryColor"
+                    fab:fab_label="@string/selectVision"
+                    fab:fab_size="mini" />
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/list_vision"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/list_vision"
+                    fab:fab_colorNormal="@color/primaryColor"
+                    fab:fab_colorPressed="@color/primaryColor"
+                    fab:fab_label="@string/listVision"
+                    fab:fab_size="mini" />
+
+            </com.github.clans.fab.FloatingActionMenu>
+
+        </FrameLayout>
 
     </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation"
+        android:layout_width="330dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

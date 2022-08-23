@@ -5,15 +5,18 @@
       <map>
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/account.xml" value="0.1475" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/add.xml" value="0.142" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/add_vision.xml" value="0.158" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/email.xml" value="0.1475" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/key.xml" value="0.1475" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/light_cursor.xml" value="0.1475" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/list_vision.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/select_vision.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/table_item_background.xml" value="0.1475" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/table_title_background.xml" value="0.1475" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/act_login.xml" value="0.2546875" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/act_signup.xml" value="0.23055555555555557" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/act_splash.xml" value="0.2546875" />
-        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/activity_main.xml" value="0.2574074074074074" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/activity_main.xml" value="0.21574074074074073" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/date_view.xml" value="0.23055555555555557" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/loading_dialog.xml" value="0.26875" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/menu_layout.xml" value="0.26875" />

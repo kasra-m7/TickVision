@@ -104,20 +104,16 @@ public class ActLogin extends AppCompatActivity {
                     getUser.setOnAddUserListener(() -> {
                         ArrayList<String> list = getUser.getResult();
 
-                        boolean isWriteUserInfo = ActSplash.shared.getBoolean(UserItems.IS_WRITE_USER_INFO, false);
-
                         loading.dismissDialog();
 
                         if (!list.get(0).equals("") && !list.get(1).equals("") && !list.get(2).equals("")) {
 
-                            if (!isWriteUserInfo) {
-                                ActSplash.editor.putString(UserItems.USER_MAIL, list.get(0));
-                                ActSplash.editor.putString(UserItems.USERNAME, list.get(1));
-                                ActSplash.editor.putString(UserItems.PASSWORD, list.get(2));
-                                ActSplash.editor.putBoolean(UserItems.IS_WRITE_USER_INFO, true);
-                                ActSplash.editor.putBoolean(UserItems.IS_FIRST_TIME, false);
-                                ActSplash.editor.apply();
-                            }
+                            ActSplash.editor.putString(UserItems.USER_MAIL, list.get(0));
+                            ActSplash.editor.putString(UserItems.USERNAME, list.get(1));
+                            ActSplash.editor.putString(UserItems.PASSWORD, list.get(2));
+                            ActSplash.editor.putBoolean(UserItems.IS_WRITE_USER_INFO, true);
+                            ActSplash.editor.putBoolean(UserItems.IS_FIRST_TIME, false);
+                            ActSplash.editor.apply();
 
                             startActivity(new Intent(ActLogin.this, MainActivity.class));
                             finish();
