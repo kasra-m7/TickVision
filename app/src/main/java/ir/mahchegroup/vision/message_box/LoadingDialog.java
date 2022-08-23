@@ -7,6 +7,7 @@ import ir.mahchegroup.vision.R;
 
 public class LoadingDialog {
     private Context ctx;
+    private Dialog dialog;
 
 
     public LoadingDialog(Context ctx) {
@@ -14,7 +15,7 @@ public class LoadingDialog {
     }
 
 
-    public void ShowDialog(Dialog dialog) {
+    public void ShowDialog() {
         dialog = new Dialog(ctx);
         dialog.setContentView(R.layout.loading_dialog);
         dialog.setCancelable(false);
@@ -23,7 +24,7 @@ public class LoadingDialog {
     }
 
 
-    public void dismissDialog(Dialog dialog) {
+    public void dismissDialog() {
         dialog.dismiss();
     }
 }

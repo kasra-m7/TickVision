@@ -2,17 +2,23 @@ package ir.mahchegroup.vision;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.github.florent37.materialtextfield.MaterialTextField;
+
 import java.util.ArrayList;
+
+import ir.mahchegroup.vision.message_box.LoadingDialog;
 import ir.mahchegroup.vision.message_box.SnackBar;
 import ir.mahchegroup.vision.network.GetUser;
 
@@ -40,6 +46,17 @@ public class ActLogin extends AppCompatActivity {
 
         setTypefaceMtf(mtfUserMail);
         setTypefaceMtf(mtfPassword);
+
+
+        // رویداد کلیک دکمه ایجاد حساب کاربری جدید
+        btnLoginToSignup.setOnClickListener(view -> {
+            closeMtf();
+
+            new Handler().postDelayed(() -> {
+                startActivity(new Intent(ActLogin.this, ActSignup.class));
+                finish();
+            }, 400);
+        });
 
 
         // تعیین وضعیت چک باکس مرا به خاطر بسپار به محض ورود به اکتیویتی
@@ -72,6 +89,9 @@ public class ActLogin extends AppCompatActivity {
         btnLogin.setOnClickListener(view -> {
             closeMtf();
 
+            LoadingDialog loading = new LoadingDialog(ActLogin.this);
+            loading.ShowDialog();
+
             new Handler().postDelayed(() -> {
                 getEdtText();
 
@@ -85,6 +105,8 @@ public class ActLogin extends AppCompatActivity {
                         ArrayList<String> list = getUser.getResult();
 
                         boolean isWriteUserInfo = ActSplash.shared.getBoolean(UserItems.IS_WRITE_USER_INFO, false);
+
+                        loading.dismissDialog();
 
                         if (!list.get(0).equals("") && !list.get(1).equals("") && !list.get(2).equals("")) {
 
@@ -106,7 +128,7 @@ public class ActLogin extends AppCompatActivity {
                     });
                 }
 
-            }, 400);
+            }, 1900);
         });
 
     }

@@ -2,6 +2,7 @@ package ir.mahchegroup.vision;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,7 +12,11 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.github.florent37.materialtextfield.MaterialTextField;
+
+import ir.mahchegroup.vision.message_box.LoadingDialog;
 import ir.mahchegroup.vision.message_box.SnackBar;
 import ir.mahchegroup.vision.network.AddUser;
 
@@ -53,7 +58,11 @@ public class ActSignup extends AppCompatActivity {
         btnSignup.setOnClickListener(view -> {
             closeMtf();
 
+            LoadingDialog loading = new LoadingDialog(ActSignup.this);
+            loading.ShowDialog();
+
             new Handler().postDelayed(() -> {
+
                 getEdtText();
 
                 if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(username) || TextUtils.isEmpty(password) || TextUtils.isEmpty(repeatPassword)) {
@@ -68,6 +77,8 @@ public class ActSignup extends AppCompatActivity {
 
                         addUser.setOnAddUserListener(() -> {
 
+                            loading.dismissDialog();
+
                             String result = addUser.getResult();
 
                             if (result.equals("duplicate")) {
@@ -79,6 +90,8 @@ public class ActSignup extends AppCompatActivity {
                             } else if (result.equals("success")) {
                                 ActSplash.editor.putBoolean(UserItems.IS_FIRST_TIME, false).apply();
 
+                                Toast.makeText(this, "حساب کاربری شما با موفقیت ایجاد شد", Toast.LENGTH_SHORT).show();
+
                                 startActivity(new Intent(ActSignup.this, ActLogin.class));
                                 finish();
 
@@ -89,7 +102,7 @@ public class ActSignup extends AppCompatActivity {
                         });
                     }
                 }
-            }, 400);
+            }, 3400);
         });
     }
 
