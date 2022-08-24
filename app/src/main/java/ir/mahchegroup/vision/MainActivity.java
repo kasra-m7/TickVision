@@ -9,13 +9,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private TableView tableView;
     public static int S, M, H;
     public static boolean isRunTimer = true;
-    private ImageView imgStartTimerService;
+    private ImageView btnStartTimerService;
+    private boolean isRunTimerService;
+    private Intent startTimer;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -76,6 +78,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTvTimerText();
+
+        isRunTimerService = ActSplash.shared.getBoolean(UserItems.IS_RUN_TIMER_SERVICE, false);
+        if (isRunTimerService) {
+            btnStartTimerService.setImageResource(R.drawable.timer_on);
+        }else {
+            btnStartTimerService.setImageResource(R.drawable.timer_off);
+        }
 //
 //        menu.getChildAt(0).setOnClickListener(view -> {
 //            Toast.makeText(this, "add", Toast.LENGTH_SHORT).show();
@@ -91,6 +100,19 @@ public class MainActivity extends AppCompatActivity {
 //            Toast.makeText(this, "list", Toast.LENGTH_SHORT).show();
 //            menu.close(true);
 //        });
+
+        btnStartTimerService.setOnClickListener(view -> {
+            if (!isRunTimerService) {
+                btnStartTimerService.setImageResource(R.drawable.timer_on);
+                startService(startTimer);
+                isRunTimerService = true;
+            }else {
+                btnStartTimerService.setImageResource(R.drawable.timer_off);
+                stopService(startTimer);
+                isRunTimerService = false;
+            }
+            ActSplash.editor.putBoolean(UserItems.IS_RUN_TIMER_SERVICE, isRunTimerService).apply();
+        });
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
@@ -127,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             tvTime.setText(FaNum.convert(ChangeDate.getCurrentTime()));
             tvDay.setText(showDay());
             setDataTime();
-        }, 1000);
+        }, 998);
     }
 
 
@@ -183,6 +205,19 @@ public class MainActivity extends AppCompatActivity {
 
         tvTimer = findViewById(R.id.tv_timer);
 
-        imgStartTimerService = findViewById(R.id.timer_on_off);
+        btnStartTimerService = findViewById(R.id.timer_on_off);
+
+        startTimer = new Intent(MainActivity.this, TimerService.class);
+    }
+
+
+    @SuppressLint("RtlHardcoded")
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(Gravity.RIGHT)) {
+            drawer.closeDrawer(Gravity.RIGHT);
+        }else {
+            super.onBackPressed();
+        }
     }
 }

@@ -13,6 +13,7 @@ public class UserItems {
     public static final String USER_MAIL = "item_user_mail";
     public static final String IS_WRITE_USER_INFO = "is_write_user_info";
     public static final String IS_CHECKED_REMEMBER = "is_checked_remember";
+    public static final String IS_RUN_TIMER_SERVICE = "is_run_timer";
 
     private String mail, username, password;
 
