@@ -16,7 +16,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="vertical"
             android:weightSum="5">
 
@@ -32,10 +34,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginBottom="1dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -76,11 +78,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="5dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginBottom="-5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="1dp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
