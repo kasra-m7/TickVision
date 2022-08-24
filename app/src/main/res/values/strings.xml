@@ -22,7 +22,7 @@
     <string name="wrongUser">نام کاربری(ایمیل) یا کلمه عبور اشتباه است</string>
     <string name="pleaseWait">در حال برقراری ارتباط با سرور</string>
     <string name="dailyPerformance">عملکرد روزانه</string>
-    <string name="dailyWorkingHours">ساعت کاکرد روزانه</string>
+    <string name="dailyWorkingHours">ساعت کاکرد روزانه :</string>
     <string name="notifText">برنامه تیک ویژن در حال اجراست</string>
     <string name="addVision">افزودن هدف جدید</string>
     <string name="selectVision">انتخاب هدف جهت بررسی روزانه</string>

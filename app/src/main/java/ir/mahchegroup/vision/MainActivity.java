@@ -16,10 +16,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
@@ -28,16 +30,22 @@ import ir.mahchegroup.vision.data_time.ChangeDate;
 import ir.mahchegroup.vision.data_time.ShamsiCalendar;
 
 public class MainActivity extends AppCompatActivity {
-    //    FloatingActionMenu menu;
+        FloatingActionMenu menu;
     private DrawerLayout drawer;
     private NavigationView navigation;
     private Toolbar toolbar;
     private LinearLayout dateLayout, tableLayout;
     private LayoutInflater inflater;
-    private View dateView, tableView;
     private TextView tvDay, tvDate, tvTime, tvTitleReceive, tvTitlePayment, tvTitleProfit, tvTitleLeftover;
+    public static TextView tvTimer;
     private RelativeLayout viewsLayout;
+    private DateView dateView;
+    private TableView tableView;
+    public static int S, M, H;
+    public static boolean isRunTimer = true;
+    private ImageView imgStartTimerService;
 
+    @SuppressLint("RtlHardcoded")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -67,9 +75,7 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setDateView();
-
-        setTableView();
+        setTvTimerText();
 //
 //        menu.getChildAt(0).setOnClickListener(view -> {
 //            Toast.makeText(this, "add", Toast.LENGTH_SHORT).show();
@@ -90,19 +96,28 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        setDataTime();
     }
 
-    @SuppressLint("InflateParams")
-    private void setTableView() {
-        tableView = new View(this);
-        tvTitleReceive = tableView.findViewById(R.id.tv_title_receive);
-        tvTitlePayment = tableView.findViewById(R.id.tv_title_payment);
-        tvTitleProfit = tableView.findViewById(R.id.tv_title_profit);
-        tvTitleLeftover = tableView.findViewById(R.id.tv_title_leftover);
 
-        tableView = inflater.inflate(R.layout.table_view, null);
-
-        tableLayout.addView(tableView);
+    // متد ست کردن متن تکست ویوی تایمر
+    private void setTvTimerText() {
+        if (S < 10 && M >= 10 && H >= 10) {
+            tvTimer.setText(FaNum.convert("0" + S + " : " + M + " : " + H));
+        } else if (S >= 10 && M < 10 && H >= 10) {
+            tvTimer.setText(FaNum.convert(S + " : 0" + M + " : " + H));
+        } else if (S >= 10 && M >= 10 && H < 10) {
+            tvTimer.setText(FaNum.convert(S + " : " + M + " : 0" + H));
+        } else if (S < 10 && M < 10 && H >= 10) {
+            tvTimer.setText(FaNum.convert("0" + S + " : 0" + M + " : " + H));
+        } else if (S < 10 && M >= 10 && H < 10) {
+            tvTimer.setText(FaNum.convert("0" + S + " : " + M + " : 0" + H));
+        } else if (S >= 10 && M < 10 && H < 10) {
+            tvTimer.setText(FaNum.convert(S + " : 0" + M + " : 0" + H));
+        } else if (S < 10 && M < 10 && H < 10) {
+            tvTimer.setText(FaNum.convert("0" + S + " : 0" + M + " : 0" + H));
+        }
     }
 
 
@@ -111,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
             tvDate.setText(FaNum.convert(ChangeDate.getCurrentDay() + " / " + ChangeDate.getCurrentMonth() + " / " + ChangeDate.getCurrentYear()));
             tvTime.setText(FaNum.convert(ChangeDate.getCurrentTime()));
             tvDay.setText(showDay());
+            setDataTime();
         }, 1000);
     }
 
@@ -128,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case 4:
-                result = "چهار شنبه";
+                result = "چهارشنبه";
                 break;
 
             case 5:
@@ -149,20 +165,6 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-    @SuppressLint("InflateParams")
-    private void setDateView() {
-        dateView = new View(this);
-        tvDay = dateView.findViewById(R.id.tv_day);
-        tvDate = dateView.findViewById(R.id.tv_date);
-        tvTime = dateView.findViewById(R.id.tv_time);
-
-        dateView = inflater.inflate(R.layout.date_view, null);
-
-        dateLayout.addView(dateView);
-
-        setDataTime();
-    }
-
 
     private void init() {
 //        menu = findViewById(R.id.menu);
@@ -170,11 +172,17 @@ public class MainActivity extends AppCompatActivity {
         navigation = findViewById(R.id.navigation);
         toolbar = findViewById(R.id.toolbar);
 
-        viewsLayout = drawer.findViewById(R.id.views_layout);
-
-        dateLayout = viewsLayout.findViewById(R.id.date_layout);
-        tableLayout = viewsLayout.findViewById(R.id.table_layout);
-
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        dateView = findViewById(R.id.dateViewId);
+        tableView = findViewById(R.id.tableViewId);
+
+        tvDay = dateView.findViewById(R.id.tv_day);
+        tvDate = dateView.findViewById(R.id.tv_date);
+        tvTime = dateView.findViewById(R.id.tv_time);
+
+        tvTimer = findViewById(R.id.tv_timer);
+
+        imgStartTimerService = findViewById(R.id.timer_on_off);
     }
 }

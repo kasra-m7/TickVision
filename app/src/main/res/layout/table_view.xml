@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layoutDirection="rtl">
 
     <LinearLayout
@@ -49,7 +49,7 @@
                     android:paddingStart="20dp"
                     android:text="@string/receiveText"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/smallTextSize"
+                    android:textSize="@dimen/normalTextSize"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
 
@@ -64,7 +64,7 @@
                     android:paddingStart="20dp"
                     android:layout_marginStart="-1.5dp"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/smallTextSize"
+                    android:textSize="@dimen/normalTextSize"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
 
@@ -87,7 +87,7 @@
                     android:paddingStart="20dp"
                     android:text="@string/paymentText"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/smallTextSize"
+                    android:textSize="@dimen/normalTextSize"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
 
@@ -102,7 +102,7 @@
                     android:gravity="center_vertical|start"
                     android:paddingStart="20dp"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/smallTextSize"
+                    android:textSize="@dimen/normalTextSize"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
 
@@ -125,7 +125,7 @@
                     android:paddingStart="20dp"
                     android:textColor="@color/primaryColor"
                     android:text="@string/profitText"
-                    android:textSize="@dimen/smallTextSize"
+                    android:textSize="@dimen/normalTextSize"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
 
@@ -140,7 +140,7 @@
                     android:paddingStart="20dp"
                     android:layout_marginStart="-1.5dp"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/smallTextSize"
+                    android:textSize="@dimen/normalTextSize"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
 
@@ -163,7 +163,7 @@
                     android:paddingStart="20dp"
                     android:textColor="@color/primaryColor"
                     android:text="@string/leftoverText"
-                    android:textSize="@dimen/smallTextSize"
+                    android:textSize="@dimen/normalTextSize"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
 
@@ -178,7 +178,7 @@
                     android:paddingStart="20dp"
                     android:layout_marginStart="-1.5dp"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/smallTextSize"
+                    android:textSize="@dimen/normalTextSize"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
 

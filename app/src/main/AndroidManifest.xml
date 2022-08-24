@@ -21,6 +21,11 @@
         android:theme="@style/Theme.TickVision"
         android:usesCleartextTraffic="true"
         tools:targetApi="s">
+        <service
+            android:name=".TimerService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
         <activity
             android:name=".ActLogin"
             android:exported="false" />

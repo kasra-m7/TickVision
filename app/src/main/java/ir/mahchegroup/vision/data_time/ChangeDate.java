@@ -27,10 +27,10 @@ public class ChangeDate
     StringBuffer b = new StringBuffer();
     b.append((fdate.getHour() < 10) ? "0" + (fdate.getHour()) :
                String.valueOf(fdate.getHour()));
-    b.append(":");
+    b.append(" : ");
     b.append((fdate.getMinute() < 10) ? "0" + (fdate.getMinute()) :
                String.valueOf(fdate.getMinute()));
-    b.append(":");
+    b.append(" : ");
     b.append((fdate.getSecond() < 10) ? "0" + (fdate.getSecond()) :
              String.valueOf(fdate.getSecond()));
     return b.toString();

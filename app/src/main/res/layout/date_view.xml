@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layoutDirection="rtl">
 
     <LinearLayout
@@ -48,12 +48,12 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
                     android:layout_weight="2"
-                    android:fontFamily="@font/iran_sans"
+                    android:fontFamily="@font/iran_sans_bold"
                     android:layoutDirection="ltr"
                     android:gravity="center_vertical|end"
                     android:paddingEnd="15dp"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/normalTextSize"
+                    android:textSize="@dimen/numberTextSize"
                     tools:ignore="RtlSymmetry" />
 
                 <TextView
@@ -63,10 +63,10 @@
                     android:layout_gravity="start"
                     android:layout_weight="2"
                     android:paddingEnd="15dp"
-                    android:fontFamily="@font/iran_sans"
+                    android:fontFamily="@font/iran_sans_bold"
                     android:gravity="end|center_vertical"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/normalTextSize"
+                    android:textSize="@dimen/numberTextSize"
                     tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
@@ -81,7 +81,7 @@
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginBottom="3dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -91,7 +91,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
                     android:layout_weight="1"
-                    android:fontFamily="@font/iran_sans"
+                    android:fontFamily="@font/iran_sans_bold"
                     android:gravity="start|center_vertical"
                     android:paddingStart="15dp"
                     android:text="@string/dailyWorkingHours"
@@ -105,11 +105,11 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
                     android:layout_weight="1"
-                    android:fontFamily="@font/iran_sans"
+                    android:fontFamily="@font/iran_sans_bold"
                     android:gravity="end"
                     android:paddingEnd="15dp"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/normalTextSize"
+                    android:textSize="@dimen/numberTextSize"
                     tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
