@@ -102,7 +102,6 @@ public class ActLogin extends AppCompatActivity {
                     snackBar.create(getResources().getString(R.string.completeFields), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
 
                 } else {
-                    loading.dismissDialog();
                     getUser.getUser(userMail, password);
 
                     getUser.setOnAddUserListener(() -> {

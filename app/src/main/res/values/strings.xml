@@ -35,7 +35,7 @@
     <string name="next">ادامه</string>
     <string name="titleVisionError">لطفا فیلد مربوط به عنوان هدف را تکمیل نمائید</string>
     <string name="moneyVisionError">لطفا فیلد مربوط به مبلغ هدف را تکمیل نمائید</string>
-    <string name="dayVisionError">لطفا فیلد مربوط به به تعداد روز را تکمیل نمائید</string>
+    <string name="dayVisionError">لطفا فیلد مربوط به تعداد روز را تکمیل نمائید</string>
     <string name="duplicateVision">هدفی با این عنوان یکبار در سیستم ثبت شده است</string>
     <string name="createVisionTableSuccess">اطلاعات شما با موفقیت ذخیره شد</string>
     <string name="createVisionTableFialed">ذخیره اطلاعات با مشکل مواجه شد</string>

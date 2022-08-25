@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -400,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
 
         startTimer = new Intent(MainActivity.this, TimerService.class);
 
-        FloatingActionMenu menu = (FloatingActionMenu) findViewById(R.id.menu);
+        FloatingActionMenu menu = findViewById(R.id.menu);
         menu.setIconAnimated(true);
 
         hasVision = new HasVision();

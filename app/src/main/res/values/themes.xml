@@ -27,4 +27,11 @@
     <style name="toolbar" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorControlNormal">@color/primaryUltraLightColor</item>
     </style>
+
+    <style name="floatingAction" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:fontFamily">@font/iran_sans</item>
+        <item name="android:textSize">@dimen/numberTextSize</item>
+        <item name="menu_labels_margin">10dp</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
 </resources>
