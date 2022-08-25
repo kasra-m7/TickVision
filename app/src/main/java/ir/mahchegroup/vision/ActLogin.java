@@ -87,7 +87,7 @@ public class ActLogin extends AppCompatActivity {
         });
 
 
-        // رویداد دکمه ایجاد حساب کاربری جدید
+        // رویداد دکمه ورود به برنامه
         btnLogin.setOnClickListener(view -> {
             closeMtf();
 
@@ -102,6 +102,7 @@ public class ActLogin extends AppCompatActivity {
                     snackBar.create(getResources().getString(R.string.completeFields), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
 
                 } else {
+                    loading.dismissDialog();
                     getUser.getUser(userMail, password);
 
                     getUser.setOnAddUserListener(() -> {

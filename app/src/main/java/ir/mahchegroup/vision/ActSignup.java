@@ -18,6 +18,7 @@ import com.github.florent37.materialtextfield.MaterialTextField;
 
 import ir.mahchegroup.vision.message_box.LoadingDialog;
 import ir.mahchegroup.vision.message_box.SnackBar;
+import ir.mahchegroup.vision.message_box.ToastBox;
 import ir.mahchegroup.vision.network.AddUser;
 
 public class ActSignup extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class ActSignup extends AppCompatActivity {
     private CoordinatorLayout snackLayout;
     private SnackBar snackBar;
     private Typeface tfb, tf;
+    private ToastBox toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,8 @@ public class ActSignup extends AppCompatActivity {
                             } else if (result.equals("success")) {
                                 ActSplash.editor.putBoolean(UserItems.IS_FIRST_TIME, false).apply();
 
-                                Toast.makeText(this, "حساب کاربری شما با موفقیت ایجاد شد", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(this, "حساب کاربری شما با موفقیت ایجاد شد", Toast.LENGTH_SHORT).show();
+                                toast.showToast("حساب کاربری شما با موفقیت ایجاد شد", true);
 
                                 startActivity(new Intent(ActSignup.this, ActLogin.class));
                                 finish();
@@ -154,5 +157,7 @@ public class ActSignup extends AppCompatActivity {
         snackBar = new SnackBar(this, snackLayout);
 
         addUser = new AddUser();
+
+        toast = new ToastBox(this);
     }
 }

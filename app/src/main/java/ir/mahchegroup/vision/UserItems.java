@@ -7,6 +7,8 @@ public class UserItems {
     public static final String GET_USER = "get_user.php";
     public static final String HAS_VISION = "has_vision.php";
     public static final String CREATE_USER_TABLE = "create_user_table.php";
+    public static final String GET_NUMBER_NEW_VISION = "get_number_new_vision.php";
+    public static final String CREATE_VISION_TABLE = "create_vision_table.php";
 
     public static final String IS_FIRST_TIME = "is_first_time";
     public static final String IS_WRITE_USER_INFO = "is_write_user_info";
@@ -19,6 +21,11 @@ public class UserItems {
     public static final String USER_MAIL = "item_user_mail";
     public static final String USER_TABLE_NAME = "item_user_table_name";
     public static final String NAME_VISION = "item_name_vision";
+    public static final String VISION_TABLE_NAME = "item_vision_table_name";
+    public static final String DATE_VISION = "item_date_vision";
+    public static final String MONEY_VISION = "item_money_vision";
+    public static final String DAY_VISION = "item_day_vision";
+    public static final String ONE_DAY_VISION = "item_one_day_vision";
 
     private String mail, username, password;
 

@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
@@ -38,6 +39,10 @@ import java.util.Objects;
 import ir.mahchegroup.vision.data_time.ChangeDate;
 import ir.mahchegroup.vision.data_time.ShamsiCalendar;
 import ir.mahchegroup.vision.message_box.LoadingDialog;
+import ir.mahchegroup.vision.message_box.SnackBar;
+import ir.mahchegroup.vision.message_box.ToastBox;
+import ir.mahchegroup.vision.network.CreateVisionTable;
+import ir.mahchegroup.vision.network.GetNumberNewVision;
 import ir.mahchegroup.vision.network.HasVision;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,9 +63,14 @@ public class MainActivity extends AppCompatActivity {
     private boolean isRunTimerService;
     private Intent startTimer;
     private int counterAddVisionDialog = 0;
-    private String nameVision, moneyVision, dayVision;
+    private String nameVision, moneyVision, dayVision, dateVision, numberNewVisionResult, visionTableName;
     private HasVision hasVision;
     private LoadingDialog loading;
+    private SnackBar snack;
+    private CoordinatorLayout snackLayout;
+    private GetNumberNewVision getNumberNewVision;
+    private CreateVisionTable createVisionTable;
+    private ToastBox toast;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -238,6 +248,9 @@ public class MainActivity extends AppCompatActivity {
                     moneyVision = edtMoneyVision.getText().toString().trim();
                     dayVision = edtDayVision.getText().toString().trim();
 
+                    UIUtil.hideKeyboard(this);
+                    addVisionDialog.dismiss();
+
                     new Handler().postDelayed(() -> {
                         loading.ShowDialog();
 
@@ -260,16 +273,40 @@ public class MainActivity extends AppCompatActivity {
                                 loading.dismissDialog();
 
                                 if (hasVisionResult.equals("true")) {
-                                    Toast.makeText(MainActivity.this, getResources().getString(R.string.duplicateVision), Toast.LENGTH_SHORT).show();
+                                    snack.create(getResources().getString(R.string.duplicateVision), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
 
                                 } else if (hasVisionResult.equals("false")) {
-                                    addVisionDialog.dismiss();
-                                    Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
+                                    String userTableName = ActSplash.shared.getString(UserItems.USER_TABLE_NAME, "");
 
+                                    getNumberNewVision.getNumberNewVision(userTableName);
+
+                                    getNumberNewVision.setOnGetNumberNewVisionListener(() -> {
+
+                                        numberNewVisionResult = getNumberNewVision.getResult();
+
+                                        visionTableName = ActSplash.shared.getString(UserItems.USERNAME, "") + "_" + numberNewVisionResult;
+
+                                        int money = Integer.parseInt(moneyVision);
+                                        int day = Integer.parseInt(dayVision);
+                                        int oneDay = money / day;
+
+                                        createVisionTable.createVisionTable(visionTableName, userTableName, dateVision, nameVision, moneyVision, dayVision, String.valueOf(oneDay));
+
+                                        createVisionTable.setOnCreateVisionTableListener(() -> {
+                                            String result = createVisionTable.getResult();
+
+                                            if (result.equals("success")) {
+                                                toast.showToast("اطلاعات با موفقیت ذخیره شد", true);
+                                            } else if (result.equals("failed")) {
+                                                toast.showToast("ذخیره اطلاعات انجام نشد", false);
+                                            }
+                                        });
+
+                                    });
                                 }
-                            }, 1200);
+                            }, 1600);
                         });
-                    }, 500);
+                    }, 300);
                 }
             }
         });
@@ -301,6 +338,7 @@ public class MainActivity extends AppCompatActivity {
             tvDate.setText(FaNum.convert(ChangeDate.getCurrentDay() + " / " + ChangeDate.getCurrentMonth() + " / " + ChangeDate.getCurrentYear()));
             tvTime.setText(FaNum.convert(ChangeDate.getCurrentTime()));
             tvDay.setText(showDay());
+            dateVision = ChangeDate.getCurrentDay() + " / " + ChangeDate.getCurrentMonth() + " / " + ChangeDate.getCurrentYear();
             setDataTime();
         }, 998);
     }
@@ -368,6 +406,16 @@ public class MainActivity extends AppCompatActivity {
         hasVision = new HasVision();
 
         loading = new LoadingDialog(this);
+
+        snackLayout = findViewById(R.id.snack_layout);
+
+        snack = new SnackBar(this, snackLayout);
+
+        createVisionTable = new CreateVisionTable();
+
+        toast = new ToastBox(this);
+
+        getNumberNewVision = new GetNumberNewVision();
     }
 
 
