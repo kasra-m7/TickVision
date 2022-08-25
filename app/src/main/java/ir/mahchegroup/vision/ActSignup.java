@@ -66,10 +66,12 @@ public class ActSignup extends AppCompatActivity {
                 getEdtText();
 
                 if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(username) || TextUtils.isEmpty(password) || TextUtils.isEmpty(repeatPassword)) {
+                    loading.dismissDialog();
                     snackBar.create(getResources().getString(R.string.completeFields), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
                 } else {
 
                     if (!password.equals(repeatPassword)) {
+                        loading.dismissDialog();
                         snackBar.create(getResources().getString(R.string.unMatchRepeatPass), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
 
                     } else {

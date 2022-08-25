@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import ir.mahchegroup.vision.message_box.LoadingDialog;
 import ir.mahchegroup.vision.message_box.SnackBar;
+import ir.mahchegroup.vision.network.CreateUserTable;
 import ir.mahchegroup.vision.network.GetUser;
 
 public class ActLogin extends AppCompatActivity {
@@ -32,6 +33,7 @@ public class ActLogin extends AppCompatActivity {
     private SnackBar snackBar;
     private CoordinatorLayout snackLayout;
     private GetUser getUser;
+    private CreateUserTable createUserTable;
     private CheckBox rememberCheckBox;
 
     @Override
@@ -96,6 +98,7 @@ public class ActLogin extends AppCompatActivity {
                 getEdtText();
 
                 if (TextUtils.isEmpty(userMail) || TextUtils.isEmpty(userMail)) {
+                    loading.dismissDialog();
                     snackBar.create(getResources().getString(R.string.completeFields), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
 
                 } else {
@@ -104,8 +107,6 @@ public class ActLogin extends AppCompatActivity {
                     getUser.setOnAddUserListener(() -> {
                         ArrayList<String> list = getUser.getResult();
 
-                        loading.dismissDialog();
-
                         if (!list.get(0).equals("") && !list.get(1).equals("") && !list.get(2).equals("")) {
 
                             ActSplash.editor.putString(UserItems.USER_MAIL, list.get(0));
@@ -113,7 +114,13 @@ public class ActLogin extends AppCompatActivity {
                             ActSplash.editor.putString(UserItems.PASSWORD, list.get(2));
                             ActSplash.editor.putBoolean(UserItems.IS_WRITE_USER_INFO, true);
                             ActSplash.editor.putBoolean(UserItems.IS_FIRST_TIME, false);
+                            ActSplash.editor.putString(UserItems.USER_TABLE_NAME, list.get(1) + "_tbl");
                             ActSplash.editor.apply();
+
+                            String userTable = list.get(1) + "_tbl";
+                            createUserTable.createUserTable(userTable);
+
+                            loading.dismissDialog();
 
                             startActivity(new Intent(ActLogin.this, MainActivity.class));
                             finish();
@@ -169,5 +176,7 @@ public class ActLogin extends AppCompatActivity {
         snackBar = new SnackBar(this, snackLayout);
 
         getUser = new GetUser();
+
+        createUserTable = new CreateUserTable();
     }
 }

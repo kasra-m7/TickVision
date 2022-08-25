@@ -8,29 +8,40 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.navigation.NavigationView;
+
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
 
 import java.util.Objects;
 
 import ir.mahchegroup.vision.data_time.ChangeDate;
 import ir.mahchegroup.vision.data_time.ShamsiCalendar;
+import ir.mahchegroup.vision.message_box.LoadingDialog;
+import ir.mahchegroup.vision.network.HasVision;
 
 public class MainActivity extends AppCompatActivity {
-        FloatingActionMenu menu;
+    private FloatingActionMenu menu;
     private DrawerLayout drawer;
     private NavigationView navigation;
     private Toolbar toolbar;
@@ -46,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageView btnStartTimerService;
     private boolean isRunTimerService;
     private Intent startTimer;
+    private int counterAddVisionDialog = 0;
+    private String nameVision, moneyVision, dayVision;
+    private HasVision hasVision;
+    private LoadingDialog loading;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -54,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
         int id = android.R.id.home;
 
         if (item.getItemId() == id) {
+
+            if (menu.isOpened()) {
+                menu.close(false);
+            }
+
             if (drawer.isDrawerOpen(Gravity.RIGHT)) {
                 drawer.closeDrawer(Gravity.RIGHT);
             } else {
@@ -79,34 +99,43 @@ public class MainActivity extends AppCompatActivity {
 
         setTvTimerText();
 
+        tvDate.setText(FaNum.convert(ChangeDate.getCurrentDay() + " / " + ChangeDate.getCurrentMonth() + " / " + ChangeDate.getCurrentYear()));
+        tvTime.setText(FaNum.convert(ChangeDate.getCurrentTime()));
+        tvDay.setText(showDay());
+
         isRunTimerService = ActSplash.shared.getBoolean(UserItems.IS_RUN_TIMER_SERVICE, false);
         if (isRunTimerService) {
             btnStartTimerService.setImageResource(R.drawable.timer_on);
-        }else {
+        } else {
             btnStartTimerService.setImageResource(R.drawable.timer_off);
         }
-//
-//        menu.getChildAt(0).setOnClickListener(view -> {
-//            Toast.makeText(this, "add", Toast.LENGTH_SHORT).show();
-//            menu.close(true);
-//        });
-//
-//        menu.getChildAt(1).setOnClickListener(view -> {
-//            Toast.makeText(this, "select", Toast.LENGTH_SHORT).show();
-//            menu.close(true);
-//        });
-//
-//        menu.getChildAt(2).setOnClickListener(view -> {
-//            Toast.makeText(this, "list", Toast.LENGTH_SHORT).show();
-//            menu.close(true);
-//        });
+
+        menu.getChildAt(0).setOnClickListener(view -> {
+            menu.close(true);
+
+            new Handler().postDelayed(this::createAddVisionDialog, 400);
+        });
+
+        menu.getChildAt(1).setOnClickListener(view -> {
+            Toast.makeText(this, "select", Toast.LENGTH_SHORT).show();
+            menu.close(true);
+        });
+
+        menu.getChildAt(2).setOnClickListener(view -> {
+            Toast.makeText(this, "list", Toast.LENGTH_SHORT).show();
+            menu.close(true);
+        });
 
         btnStartTimerService.setOnClickListener(view -> {
+            if (menu.isOpened()) {
+                menu.close(true);
+            }
+
             if (!isRunTimerService) {
                 btnStartTimerService.setImageResource(R.drawable.timer_on);
                 startService(startTimer);
                 isRunTimerService = true;
-            }else {
+            } else {
                 btnStartTimerService.setImageResource(R.drawable.timer_off);
                 stopService(startTimer);
                 isRunTimerService = false;
@@ -120,6 +149,130 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
         setDataTime();
+    }
+
+
+    private void createAddVisionDialog() {
+// ساخت دیالوگ افزودن هدف جدید
+        Dialog addVisionDialog = new Dialog(this);
+        addVisionDialog.setContentView(R.layout.add_vision_dialog_layout);
+        EditText edtTitleVision = addVisionDialog.findViewById(R.id.edt_title_vision);
+        EditText edtMoneyVision = addVisionDialog.findViewById(R.id.edt_money_vision);
+        EditText edtDayVision = addVisionDialog.findViewById(R.id.edt_day_vision);
+        Button btnSave = addVisionDialog.findViewById(R.id.btn_save_add_vision_dialog);
+        Button btnCancel = addVisionDialog.findViewById(R.id.btn_cancel_add_vision_dialog);
+        addVisionDialog.create();
+        addVisionDialog.show();
+
+
+        // نمایش کیبورد روی ادیت تکست با تاخیر 200 میلی ثانیه ای
+        new Handler().postDelayed(() -> {
+            edtTitleVision.requestFocus();
+            UIUtil.showKeyboard(MainActivity.this, edtTitleVision);
+        }, 200);
+
+        // رویداد کلیک دکمه بازگشت دیالوگ افزودن هدف جدید
+        btnCancel.setOnClickListener(view -> {
+            addVisionDialog.dismiss();
+            counterAddVisionDialog = 0;
+        });
+
+        // صفر کردن شمارنده هر بار که دیالوگ باز میشود
+        counterAddVisionDialog = 0;
+
+
+        // ست کردن متن دکمه ثبت هدف
+        btnSave.setText(getResources().getString(R.string.next));
+
+
+        // رویداد کلیک دکمه ثبت هدف دیالوگ افزودن هدف جدید
+        btnSave.setOnClickListener(view -> {
+            // چک کردن شمارنده دیالوگ جهت نمایش یا عدم نمایش ادیت تکست ها
+            if (counterAddVisionDialog == 0) {
+                btnSave.setText(getResources().getString(R.string.next));
+                nameVision = edtTitleVision.getText().toString().trim();
+
+
+                // چک کردن خالی بودن یا نبودن ادیت تکست عنوان هدف
+                if (TextUtils.isEmpty(nameVision)) {
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.titleVisionError), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    counterAddVisionDialog++;
+                    edtMoneyVision.setVisibility(View.VISIBLE);
+                    edtMoneyVision.requestFocus();
+
+                }
+
+
+                // چک کردن شمارنده دیالوگ جهت نمایش یا عدم نمایش ادیت تکست ها
+            } else if (counterAddVisionDialog == 1) {
+                moneyVision = edtMoneyVision.getText().toString().trim();
+
+
+                // چک کردن خالی بودن یا نبودن ادیت تکست مبلغ هدف
+                if (TextUtils.isEmpty(moneyVision)) {
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.moneyVisionError), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    btnSave.setText(getResources().getString(R.string.save_vision));
+                    counterAddVisionDialog++;
+                    edtDayVision.setVisibility(View.VISIBLE);
+                    edtDayVision.requestFocus();
+
+                }
+
+
+                // چک کردن شمارنده دیالوگ جهت نمایش یا عدم نمایش ادیت تکست ها
+            } else if (counterAddVisionDialog == 2) {
+                dayVision = edtDayVision.getText().toString();
+
+
+                // چک کردن خالی بودن یا نبودن ادیت تکست تعداد روز
+                if (TextUtils.isEmpty(dayVision)) {
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.dayVisionError), Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    nameVision = edtTitleVision.getText().toString().trim();
+                    moneyVision = edtMoneyVision.getText().toString().trim();
+                    dayVision = edtDayVision.getText().toString().trim();
+
+                    new Handler().postDelayed(() -> {
+                        loading.ShowDialog();
+
+                        String userTable = ActSplash.shared.getString(UserItems.USER_TABLE_NAME, "");
+
+                        Log.e("d", userTable + " | " + nameVision);
+
+                        // چک کردن وجود نام هدف در سرور
+                        hasVision.hasVision(userTable, nameVision);
+
+
+                        hasVision.setOnHasVisionListener(() -> {
+
+
+                            // اگر هدف جدید در سرور وجود داشت ترو و در غیر این صورت فالس برمیگردد
+                            String hasVisionResult = hasVision.getResult();
+
+                            new Handler().postDelayed(() -> {
+
+                                loading.dismissDialog();
+
+                                if (hasVisionResult.equals("true")) {
+                                    Toast.makeText(MainActivity.this, getResources().getString(R.string.duplicateVision), Toast.LENGTH_SHORT).show();
+
+                                } else if (hasVisionResult.equals("false")) {
+                                    addVisionDialog.dismiss();
+                                    Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }, 1200);
+                        });
+                    }, 500);
+                }
+            }
+        });
     }
 
 
@@ -189,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void init() {
-//        menu = findViewById(R.id.menu);
+        menu = findViewById(R.id.menu);
         drawer = findViewById(R.id.drawer);
         navigation = findViewById(R.id.navigation);
         toolbar = findViewById(R.id.toolbar);
@@ -208,6 +361,13 @@ public class MainActivity extends AppCompatActivity {
         btnStartTimerService = findViewById(R.id.timer_on_off);
 
         startTimer = new Intent(MainActivity.this, TimerService.class);
+
+        FloatingActionMenu menu = (FloatingActionMenu) findViewById(R.id.menu);
+        menu.setIconAnimated(true);
+
+        hasVision = new HasVision();
+
+        loading = new LoadingDialog(this);
     }
 
 
@@ -216,7 +376,9 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (drawer.isDrawerOpen(Gravity.RIGHT)) {
             drawer.closeDrawer(Gravity.RIGHT);
-        }else {
+        } else if (menu.isOpened()) {
+            menu.close(true);
+        } else {
             super.onBackPressed();
         }
     }
