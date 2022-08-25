@@ -56,7 +56,7 @@ public class ActSplash extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(0,0);
             finish();
-        }, 6000);
+        }, 1000);
     }
 
 

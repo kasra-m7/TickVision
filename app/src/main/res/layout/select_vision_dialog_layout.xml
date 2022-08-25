@@ -45,6 +45,8 @@
             android:layout_height="160dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:background="@drawable/table_item_background"
             android:overScrollMode="never"
             android:scrollbarThumbVertical="@android:color/transparent"/>

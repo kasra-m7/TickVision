@@ -41,7 +41,7 @@
     <string name="createVisionTableFialed">ذخیره اطلاعات با مشکل مواجه شد</string>
     <string name="selectVisionDialogText">یک هدف جهت بررسی روزانه انتخاب نمائید</string>
     <string name="select">انتخاب</string>
-    <string name="selectVisionText">لطفا ابتدا یکی از اهداف خود را انتخاب نمائید</string>
+    <string name="selectVisionText">لطفا یکی از اهداف خود را انتخاب نمائید</string>
     <string name="paymentText">هزینه</string>
     <string name="receiveText">درآمد</string>
     <string name="receive">مبلغ دریافتی</string>

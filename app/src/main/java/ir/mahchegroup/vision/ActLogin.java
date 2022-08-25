@@ -126,6 +126,7 @@ public class ActLogin extends AppCompatActivity {
                             finish();
 
                         } else {
+                            loading.dismissDialog();
                             snackBar.create(getResources().getString(R.string.wrongUser), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
                         }
                     });

@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
@@ -35,6 +38,8 @@ import com.google.android.material.navigation.NavigationView;
 
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import ir.mahchegroup.vision.data_time.ChangeDate;
@@ -43,8 +48,14 @@ import ir.mahchegroup.vision.message_box.LoadingDialog;
 import ir.mahchegroup.vision.message_box.SnackBar;
 import ir.mahchegroup.vision.message_box.ToastBox;
 import ir.mahchegroup.vision.network.CreateVisionTable;
+import ir.mahchegroup.vision.network.GetItemVisions;
 import ir.mahchegroup.vision.network.GetNumberNewVision;
+import ir.mahchegroup.vision.network.GetVisionInfo;
+import ir.mahchegroup.vision.network.GetVisionTableName;
 import ir.mahchegroup.vision.network.HasVision;
+import ir.mahchegroup.vision.select_vision_recycler.RecyclerItemClick;
+import ir.mahchegroup.vision.select_vision_recycler.RvItemsSelectVision;
+import ir.mahchegroup.vision.select_vision_recycler.SelectVisionAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionMenu menu;
@@ -53,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private LinearLayout dateLayout, tableLayout;
     private LayoutInflater inflater;
-    private TextView tvDay, tvDate, tvTime, tvTitleReceive, tvTitlePayment, tvTitleProfit, tvTitleLeftover;
+    private TextView tvDay, tvDate, tvTime, tvTitleReceive, tvTitlePayment, tvTitleProfit,
+            tvTitleLeftover, tvToolbar, tvTextReceive, tvTextPayment, tvTextProfit, tvTextLeftover;
     public static TextView tvTimer;
     private RelativeLayout viewsLayout;
     private DateView dateView;
@@ -64,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isRunTimerService;
     private Intent startTimer;
     private int counterAddVisionDialog = 0;
-    private String nameVision, moneyVision, dayVision, dateVision, numberNewVisionResult, visionTableName;
+    private String nameVision, moneyVision, dayVision, dateVision, numberNewVisionResult,
+            recyclerClickItem, selectedVision, userTbl, netMoneyVision, netDayVision, netOneDayVision,
+            netReceive, netPayment, netProfit, netLeftover, netSs, netMm, netHh, netIsTick, strReceive, strPayment, strProfit, strLeftover, visionTblName;
     private HasVision hasVision;
     private LoadingDialog loading;
     private SnackBar snack;
@@ -72,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
     private GetNumberNewVision getNumberNewVision;
     private CreateVisionTable createVisionTable;
     private ToastBox toast;
+    private ArrayList<String> nameVisionResult, isTickResult, getVisionInfoResult;
+    private ArrayList<RvItemsSelectVision> rvItems;
+    private SelectVisionAdapter adapter;
+    private GetItemVisions getItemVisions;
+    private GetVisionTableName getVisionTableName;
+    private GetVisionInfo getVisionInfo;
+    private int intReceive, intPayment, intProfit, intLeftover;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -115,21 +136,35 @@ public class MainActivity extends AppCompatActivity {
         tvDay.setText(showDay());
 
         isRunTimerService = ActSplash.shared.getBoolean(UserItems.IS_RUN_TIMER_SERVICE, false);
+        userTbl = ActSplash.shared.getString(UserItems.USER_TABLE_NAME, "");
+
         if (isRunTimerService) {
             btnStartTimerService.setImageResource(R.drawable.timer_on);
         } else {
             btnStartTimerService.setImageResource(R.drawable.timer_off);
         }
 
+
+        setDataTime();
+
+
+        selectedVision = ActSplash.shared.getString(UserItems.SELECTED_VISION, "");
+        if (!TextUtils.isEmpty(selectedVision)) {
+            tvToolbar.setText(ActSplash.shared.getString(UserItems.SELECTED_VISION, ""));
+            visionTblName = ActSplash.shared.getString(UserItems.VISION_TABLE_NAME, "");
+            dateVision = ChangeDate.getCurrentDay() + " / " + ChangeDate.getCurrentMonth() + " / " + ChangeDate.getCurrentYear();
+
+            getVisionTableInfo();
+        }
+
         menu.getChildAt(0).setOnClickListener(view -> {
             menu.close(true);
-
             new Handler().postDelayed(this::createAddVisionDialog, 400);
         });
 
         menu.getChildAt(1).setOnClickListener(view -> {
-            Toast.makeText(this, "select", Toast.LENGTH_SHORT).show();
             menu.close(true);
+            new Handler().postDelayed(this::createSelectVisionDialog, 400);
         });
 
         menu.getChildAt(2).setOnClickListener(view -> {
@@ -158,8 +193,6 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        setDataTime();
     }
 
 
@@ -285,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         numberNewVisionResult = getNumberNewVision.getResult();
 
-                                        visionTableName = ActSplash.shared.getString(UserItems.USERNAME, "") + "_" + numberNewVisionResult;
+                                        String visionTableName = ActSplash.shared.getString(UserItems.USERNAME, "") + "_" + numberNewVisionResult;
 
                                         int money = Integer.parseInt(moneyVision);
                                         int day = Integer.parseInt(dayVision);
@@ -314,7 +347,180 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // متد ست کردن متن تکست ویوی تایمر
+    @SuppressLint("NotifyDataSetChanged")
+    private void createSelectVisionDialog() {
+        nameVisionResult.clear();
+        isTickResult.clear();
+
+
+        // ساخت دیالوگ انتخاب هدف
+        Dialog selectVisionDialog = new Dialog(this);
+        selectVisionDialog.setContentView(R.layout.select_vision_dialog_layout);
+        TextView tvSelectedItem = selectVisionDialog.findViewById(R.id.tv_selected_vision_vision_dialog);
+        RecyclerView rv = selectVisionDialog.findViewById(R.id.rv_select_vision_dialog);
+        Button btnOk = selectVisionDialog.findViewById(R.id.btn_ok_select_vision_dialog);
+        Button btnCancel = selectVisionDialog.findViewById(R.id.btn_cancel_select_vision_dialog);
+        selectVisionDialog.getWindow().getAttributes().windowAnimations = R.style.animDialog;
+        selectVisionDialog.create();
+        selectVisionDialog.show();
+
+
+        // مقدار دهی اولیه ریسایکلرویو
+        rvItems = new ArrayList<>();
+        rv.setHasFixedSize(true);
+        rv.setItemAnimator(new DefaultItemAnimator());
+        rv.setLayoutManager(new LinearLayoutManager(selectVisionDialog.getContext()));
+        adapter = new SelectVisionAdapter(selectVisionDialog.getContext(), rvItems);
+        rv.setAdapter(adapter);
+
+
+        // ارسال اطالاعات به سرور جهت گرفتن و نمایش تمام هدف های کاربر
+        userTbl = ActSplash.shared.getString(UserItems.USER_TABLE_NAME, "");
+        getItemVisions.getItemVision(userTbl);
+
+        getItemVisions.setOnGetItemVisions(() -> {
+
+            nameVisionResult = getItemVisions.getNameVisionsResult();
+            isTickResult = getItemVisions.getIsTickResult();
+
+            for (int i = 1; i < nameVisionResult.size(); i++) {
+                rvItems.add(new RvItemsSelectVision(nameVisionResult.get(i), isTickResult.get(i)));
+            }
+            adapter.notifyDataSetChanged();
+        });
+
+
+        // رویداد کلیک دکمه بازگشت
+        btnCancel.setOnClickListener(view -> selectVisionDialog.dismiss());
+
+
+        // رویداد کلیک آیتم های ریسایکلرویو
+        rv.addOnItemTouchListener(new RecyclerItemClick(getBaseContext(), (view, position) -> {
+            tvSelectedItem.setText(nameVisionResult.get(position + 1));
+            recyclerClickItem = tvSelectedItem.getText().toString();
+        }));
+
+
+        // رویداد کلیک دکمه انتخاب
+        btnOk.setOnClickListener(view -> {
+            selectedVision = recyclerClickItem;
+            recyclerClickItem = "";
+
+            if (TextUtils.isEmpty(selectedVision)) {
+                toast.showToast(getResources().getString(R.string.selectVisionText), false);
+
+            } else {
+                selectVisionDialog.dismiss();
+                ActSplash.editor.putString(UserItems.SELECTED_VISION, selectedVision).apply();
+                tvToolbar.setText(selectedVision);
+
+                getVisionInfo();
+            }
+        });
+    }
+
+
+    private void getVisionInfo() {
+        getVisionTableName.getVisionTableName(userTbl, selectedVision);
+
+        getVisionTableName.setOnGetVisionTableNameListener(() -> {
+            String result = getVisionTableName.getResult();
+            int intResult = Integer.parseInt(result);
+            intResult--;
+            visionTblName = ActSplash.shared.getString(UserItems.USERNAME, "") + "_" + intResult;
+
+            ActSplash.editor.putString(UserItems.VISION_TABLE_NAME, visionTblName).apply();
+
+           getVisionTableInfo();
+        });
+    }
+
+
+    private void getVisionTableInfo() {
+        getVisionInfo.getVisionInfo(visionTblName, dateVision);
+
+        getVisionInfo.setOnGetVisionInfoListener(() -> {
+            getVisionInfoResult = getVisionInfo.getResult();
+
+            netMoneyVision = getVisionInfoResult.get(0);
+            netDayVision = getVisionInfoResult.get(1);
+            netOneDayVision = getVisionInfoResult.get(2);
+            netReceive = getVisionInfoResult.get(3);
+            netPayment = getVisionInfoResult.get(4);
+            netProfit = getVisionInfoResult.get(5);
+            netLeftover = getVisionInfoResult.get(6);
+            netSs = getVisionInfoResult.get(7);
+            netMm = getVisionInfoResult.get(8);
+            netHh = getVisionInfoResult.get(9);
+            netIsTick = getVisionInfoResult.get(10);
+
+            stringToInteger();
+
+            setColorTableInfo();
+
+            integerToString();
+
+            setTextTableInfo();
+
+            S = Integer.parseInt(netSs);
+            M = Integer.parseInt(netSs);
+            H = Integer.parseInt(netSs);
+
+            setTvTimerText();
+
+        });
+    }
+
+
+    private void stringToInteger() {
+
+        intReceive = Integer.parseInt(netReceive);
+        intPayment = Integer.parseInt(netPayment);
+        intProfit = Integer.parseInt(netProfit);
+        intLeftover = Integer.parseInt(netLeftover);
+    }
+
+
+    // متد جداسازی سه رقم سه رقم عدد
+    private static String splitDigits(int number) {
+        return new DecimalFormat("###,###,###,###,###,###,###,###,###").format(number);
+    }
+
+
+    // متد تبدیل عدد به متن
+    private void integerToString() {
+        strReceive = FaNum.convert(splitDigits(intReceive));
+        strPayment = FaNum.convert(splitDigits(intPayment));
+        strProfit = FaNum.convert(splitDigits(intProfit));
+        strLeftover = FaNum.convert(splitDigits(intLeftover));
+    }
+
+
+    private void setColorTableInfo() {
+
+        tvTitleReceive.setTextColor(intReceive == 0 ? getResources().getColor(R.color.primaryColor) : getResources().getColor(R.color.accentColor));
+        tvTextReceive.setTextColor(intReceive == 0 ? getResources().getColor(R.color.primaryColor) : getResources().getColor(R.color.accentColor));
+
+        tvTitlePayment.setTextColor(intPayment == 0 ? getResources().getColor(R.color.accentColor) : getResources().getColor(R.color.primaryColor));
+        tvTextPayment.setTextColor(intPayment == 0 ? getResources().getColor(R.color.accentColor) : getResources().getColor(R.color.primaryColor));
+
+        tvTitleProfit.setTextColor(intProfit <= 0 ? getResources().getColor(R.color.primaryColor) : getResources().getColor(R.color.accentColor));
+        tvTextProfit.setTextColor(intProfit <= 0 ? getResources().getColor(R.color.primaryColor) : getResources().getColor(R.color.accentColor));
+
+        tvTitleLeftover.setTextColor(intLeftover <= 0 ? getResources().getColor(R.color.accentColor) : getResources().getColor(R.color.primaryColor));
+        tvTextLeftover.setTextColor(intLeftover <= 0 ? getResources().getColor(R.color.accentColor) : getResources().getColor(R.color.primaryColor));
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private void setTextTableInfo() {
+        tvTextReceive.setText(strReceive + "   ریال");
+        tvTextPayment.setText(strPayment + "   ریال");
+        tvTextProfit.setText(strProfit + "   ریال");
+        tvTextLeftover.setText(strLeftover + "   ریال");
+    }
+
+
     private void setTvTimerText() {
         if (S < 10 && M >= 10 && H >= 10) {
             tvTimer.setText(FaNum.convert("0" + S + " : " + M + " : " + H));
@@ -397,7 +603,20 @@ public class MainActivity extends AppCompatActivity {
 
         tvTimer = findViewById(R.id.tv_timer);
 
+        tvTitleReceive = findViewById(R.id.tv_title_receive);
+        tvTitlePayment = findViewById(R.id.tv_title_payment);
+        tvTitleProfit = findViewById(R.id.tv_title_profit);
+        tvTitleLeftover = findViewById(R.id.tv_title_leftover);
+
+        tvTextReceive = findViewById(R.id.tv_text_receive);
+        tvTextPayment = findViewById(R.id.tv_text_payment);
+        tvTextProfit = findViewById(R.id.tv_text_profit);
+        tvTextLeftover = findViewById(R.id.tv_text_leftover);
+
         btnStartTimerService = findViewById(R.id.timer_on_off);
+
+        nameVisionResult = new ArrayList<>();
+        isTickResult = new ArrayList<>();
 
         startTimer = new Intent(MainActivity.this, TimerService.class);
 
@@ -417,6 +636,16 @@ public class MainActivity extends AppCompatActivity {
         toast = new ToastBox(this);
 
         getNumberNewVision = new GetNumberNewVision();
+
+        getItemVisions = new GetItemVisions();
+
+        tvToolbar = findViewById(R.id.tv_toolbar);
+
+        getVisionTableName = new GetVisionTableName();
+
+        getVisionInfo = new GetVisionInfo();
+
+        getVisionInfoResult = new ArrayList<>();
     }
 
 
