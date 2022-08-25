@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layoutDirection="rtl"
+    android:layout_height="match_parent">
+    
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_margin="15dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/edt_background"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:id="@+id/img_is_tick_vision_show_visions"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_vision_name_show_visions"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:textColor="@color/primaryColor"
+            android:gravity="start|center_vertical"
+            android:layout_marginStart="5dp"
+            android:textSize="@dimen/normalTextSize"
+            android:fontFamily="@font/iran_sans"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

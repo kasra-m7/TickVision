@@ -94,6 +94,7 @@
                 fab:menu_labels_textSize="@dimen/normalTextSize"
                 fab:menu_openDirection="up"
                 fab:menu_shadowColor="#66000000"
+                app:menu_icon="@drawable/menu"
                 fab:menu_shadowRadius="2dp"
                 fab:menu_shadowXOffset="1dp"
                 fab:menu_shadowYOffset="2dp"
