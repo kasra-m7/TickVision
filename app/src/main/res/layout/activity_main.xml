@@ -53,6 +53,29 @@
                 android:layout_below="@id/dateViewId"
                 android:layout_marginTop="30dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tableViewId"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:weightSum="2.35">
+
+                <ir.mahchegroup.vision.ReceiveView
+                    android:id="@+id/btn_receive_id"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+                <ir.mahchegroup.vision.PaymentView
+                    android:id="@+id/btn_payment_id"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
             <ImageView
                 android:id="@+id/timer_on_off"
                 android:layout_width="150dp"

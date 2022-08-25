@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private GetVisionTableName getVisionTableName;
     private GetVisionInfo getVisionInfo;
     private int intReceive, intPayment, intProfit, intLeftover;
+    private View btnReceive, btnPayment;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -190,9 +191,35 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        btnReceive.setOnClickListener(view -> {
+
+        });
+
+
+        btnPayment.setOnClickListener(view -> {
+            toast.showToast("مبلغ پرداختی", false);
+        });
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+    }
+
+
+    private void createReceiveDialog() {
+        Dialog receiveDialog = new Dialog(this);
+        receiveDialog.setContentView(R.layout.receive_dialog_layout);
+        EditText edtReceive = receiveDialog.findViewById(R.id.edt_receive);
+        Button Voice = receiveDialog.findViewById(R.id.btn_voice_receive);
+        Button save = receiveDialog.findViewById(R.id.btn_ok_receive);
+        Button cancel = receiveDialog.findViewById(R.id.btn_cancel_receive);
+        receiveDialog.create();
+        receiveDialog.show();
+
+        cancel.setOnClickListener(view -> receiveDialog.dismiss());
+
+
     }
 
 
@@ -646,6 +673,10 @@ public class MainActivity extends AppCompatActivity {
         getVisionInfo = new GetVisionInfo();
 
         getVisionInfoResult = new ArrayList<>();
+
+        btnReceive = findViewById(R.id.btn_receive_id);
+
+        btnPayment = findViewById(R.id.btn_payment_id);
     }
 
 

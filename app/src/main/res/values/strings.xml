@@ -53,4 +53,6 @@
     <string name="receiveError">لطفا فیلد مربوط به مبلغ دریافتی را تکمیل نمائید</string>
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="receive_text">ثبت مبلغ دریافتی</string>
+    <string name="payment_text">ثبت مبلغ پرداختی</string>
 </resources>

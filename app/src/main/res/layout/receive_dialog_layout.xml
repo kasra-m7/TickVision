@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl">
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:background="@color/background"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="7dp"
+            android:src="@drawable/receive"
+            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="1.5dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:background="@color/accentColor" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_voice_receive"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/blue_voice_icon"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+            <EditText
+                android:id="@+id/edt_receive"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/edt_background_blue"
+                android:fontFamily="@font/iran_sans"
+                android:gravity="center"
+                android:hint="@string/receive"
+                android:inputType="number"
+                android:textColorHint="#991E9DF1"
+                android:textCursorDrawable="@drawable/blue_cursor"
+                android:textSize="@dimen/normalTextSize"
+                tools:ignore="Autofill,TouchTargetSizeCheck,TextContrastCheck" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="25dp">
+
+            <Button
+                android:id="@+id/btn_ok_receive"
+                android:layout_width="110dp"
+                android:layout_height="38dp"
+                android:layout_gravity="start"
+                android:background="@drawable/btn_background_blue"
+                android:fontFamily="@font/iran_sans_bold"
+                android:text="@string/savePrice"
+                android:textColor="@color/primaryUltraLightColor"
+                android:textSize="@dimen/btnTextSize"
+                tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+            <View
+                android:layout_width="60dp"
+                android:layout_height="1dp"/>
+
+            <Button
+                android:id="@+id/btn_cancel_receive"
+                android:layout_width="110dp"
+                android:layout_height="38dp"
+                android:layout_gravity="end"
+                android:background="@drawable/btn_background_blue"
+                android:fontFamily="@font/iran_sans_bold"
+                android:text="@string/cancelText"
+                android:textColor="@color/primaryUltraLightColor"
+                android:textSize="@dimen/btnTextSize"
+                tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

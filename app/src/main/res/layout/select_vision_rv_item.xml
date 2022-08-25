@@ -12,7 +12,7 @@
         android:layout_margin="15dp"
         android:layout_centerInParent="true"
         android:weightSum="6"
-        android:background="@drawable/edt_background"
+        android:background="@drawable/edt_background_red"
         tools:ignore="UselessParent">
 
         <ImageView

@@ -12,6 +12,7 @@ public class UserItems {
     public static final String GET_ITEM_VISIONS = "get_item_visions.php";
     public static final String GET_VISION_INFO = "get_vision_info.php";
     public static final String GET_VISION_TABLE_NAME = "get_vision_table_name.php";
+    public static final String GET_TABLE_INFO = "get_table_info.php";
 
     public static final String IS_FIRST_TIME = "is_first_time";
     public static final String IS_WRITE_USER_INFO = "is_write_user_info";
