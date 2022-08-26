@@ -1,5 +1,7 @@
 package ir.mahchegroup.vision.network;
 
+import android.util.Log;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
@@ -62,7 +64,7 @@ public class GetItemVisions {
 
                     @Override
                     public void onError(ANError anError) {
-
+                        Log.e("get item visions", anError.toString());
                     }
                 });
     }

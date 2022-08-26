@@ -1,5 +1,7 @@
 package ir.mahchegroup.vision.network;
 
+import android.util.Log;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
@@ -54,7 +56,7 @@ public class GetPriceFromServer {
 
                     @Override
                     public void onError(ANError anError) {
-
+                        Log.e("get price from server", anError.toString());
                     }
                 });
     }

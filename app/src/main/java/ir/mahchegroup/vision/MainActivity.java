@@ -54,6 +54,7 @@ import ir.mahchegroup.vision.network.GetPriceFromServer;
 import ir.mahchegroup.vision.network.GetVisionInfo;
 import ir.mahchegroup.vision.network.GetVisionTableName;
 import ir.mahchegroup.vision.network.HasVision;
+import ir.mahchegroup.vision.network.SetPriceInServer;
 import ir.mahchegroup.vision.select_vision_recycler.RecyclerItemClick;
 import ir.mahchegroup.vision.select_vision_recycler.RvItemsSelectVision;
 import ir.mahchegroup.vision.select_vision_recycler.SelectVisionAdapter;
@@ -63,12 +64,10 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private NavigationView navigation;
     private Toolbar toolbar;
-    private LinearLayout dateLayout, tableLayout;
     private LayoutInflater inflater;
     private TextView tvDay, tvDate, tvTime, tvTitleReceive, tvTitlePayment, tvTitleProfit,
             tvTitleLeftover, tvToolbar, tvTextReceive, tvTextPayment, tvTextProfit, tvTextLeftover;
     public static TextView tvTimer;
-    private RelativeLayout viewsLayout;
     private DateView dateView;
     private TableView tableView;
     public static int S, M, H;
@@ -93,9 +92,10 @@ public class MainActivity extends AppCompatActivity {
     private GetItemVisions getItemVisions;
     private GetVisionTableName getVisionTableName;
     private GetVisionInfo getVisionInfo;
-    private int intReceive, intPayment, intProfit, intLeftover, newReceive, newPayment, newProfit, newLeftover;
+    private int intReceive, intPayment, intProfit, intLeftover, newReceive, newPayment, newProfit, newLeftover, negativeLeftover, negativeProfit;
     private View btnReceive, btnPayment;
     private GetPriceFromServer getPriceFromServer;
+    private SetPriceInServer setPriceInServer;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -230,15 +230,13 @@ public class MainActivity extends AppCompatActivity {
             netLeftover = getPriceFromServerResult.get(4);
             netIsTick = getPriceFromServerResult.get(5);
 
-            Log.e("getTableInfo", getPriceFromServerResult.get(0) + " | " + getPriceFromServerResult.get(1) + " | " + getPriceFromServerResult.get(2) + " | " + getPriceFromServerResult.get(3) + " | " + getPriceFromServerResult.get(4) + " | " + getPriceFromServerResult.get(5));
-
         });
 
         receiveDialog.create();
         receiveDialog.show();
 
         voice.setOnClickListener(view -> {
-            toast.showToast("امکان ثبت صوتی بلغ به زودی به برنامه اضافه خواهد شد", false);
+            toast.showToast("امکان ثبت صوتی مبلغ به زودی به برنامه اضافه خواهد شد", false);
         });
 
         btnCancel.setOnClickListener(view -> receiveDialog.dismiss());
@@ -254,11 +252,25 @@ public class MainActivity extends AppCompatActivity {
                 stringToInteger();
 
                 newReceive = intReceive + intMoney;
+                newPayment = intPayment;
                 newProfit = newReceive - intPayment;
                 newLeftover = Integer.parseInt(netOneDayVision) - newProfit;
 
+                setPriceInServer.setPriceInServer(visionTblName, dateVision, String.valueOf(newReceive), String.valueOf(newPayment), String.valueOf(newProfit), String.valueOf(newLeftover));
 
+                setPriceInServer.setOnSetPriceInServerListener(() -> {
+                    String result = setPriceInServer.getResult();
 
+                    if (result.equals("success")) {
+                        receiveDialog.dismiss();
+
+                        setTextTableInfo();
+
+                        toast.showToast("اطلاعات شما با موفقیت ذخیره شد", true);
+                    }else {
+                        toast.showToast("ذخیره اطلاعات انجام نشد", false);
+                    }
+                });
             }
         });
     }
@@ -357,8 +369,6 @@ public class MainActivity extends AppCompatActivity {
                         loading.ShowDialog();
 
                         String userTable = ActSplash.shared.getString(UserItems.USER_TABLE_NAME, "");
-
-                        Log.e("d", userTable + " | " + nameVision);
 
                         // چک کردن وجود نام هدف در سرور
                         hasVision.hasVision(userTable, nameVision);
@@ -528,6 +538,8 @@ public class MainActivity extends AppCompatActivity {
 
             integerToString();
 
+            setNegativeTextTable();
+
             setTextTableInfo();
 
             S = Integer.parseInt(netSs);
@@ -581,11 +593,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     @SuppressLint("SetTextI18n")
+    private void setNegativeTextTable() {
+        if (intLeftover < 0) {
+            negativeLeftover = Math.abs(intLeftover);
+            tvTextLeftover.setText(negativeLeftover + "   ریال");
+            tvTitleLeftover.setText("مازاد");
+        }else {
+            tvTextLeftover.setText(strLeftover + "   ریال");
+            tvTitleLeftover.setText("باقیمانده");
+        }
+    }
+
+
+    @SuppressLint("SetTextI18n")
     private void setTextTableInfo() {
         tvTextReceive.setText(strReceive + "   ریال");
         tvTextPayment.setText(strPayment + "   ریال");
         tvTextProfit.setText(strProfit + "   ریال");
-        tvTextLeftover.setText(strLeftover + "   ریال");
+
     }
 
 
@@ -720,6 +745,8 @@ public class MainActivity extends AppCompatActivity {
         btnPayment = findViewById(R.id.btn_payment_id);
 
         getPriceFromServer = new GetPriceFromServer();
+
+        setPriceInServer = new SetPriceInServer();
     }
 
 
