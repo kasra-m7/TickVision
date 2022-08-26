@@ -55,4 +55,5 @@
     <string name="close">close</string>
     <string name="receive_text">ثبت مبلغ دریافتی</string>
     <string name="payment_text">ثبت مبلغ پرداختی</string>
+    <string name="moneyError">لطفا فیلد مربوط به مبلغ را تکمیل نمائید</string>
 </resources>

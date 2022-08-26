@@ -50,6 +50,7 @@ import ir.mahchegroup.vision.message_box.ToastBox;
 import ir.mahchegroup.vision.network.CreateVisionTable;
 import ir.mahchegroup.vision.network.GetItemVisions;
 import ir.mahchegroup.vision.network.GetNumberNewVision;
+import ir.mahchegroup.vision.network.GetPriceFromServer;
 import ir.mahchegroup.vision.network.GetVisionInfo;
 import ir.mahchegroup.vision.network.GetVisionTableName;
 import ir.mahchegroup.vision.network.HasVision;
@@ -86,14 +87,15 @@ public class MainActivity extends AppCompatActivity {
     private GetNumberNewVision getNumberNewVision;
     private CreateVisionTable createVisionTable;
     private ToastBox toast;
-    private ArrayList<String> nameVisionResult, isTickResult, getVisionInfoResult;
+    private ArrayList<String> nameVisionResult, isTickResult, getVisionInfoResult, getPriceFromServerResult;
     private ArrayList<RvItemsSelectVision> rvItems;
     private SelectVisionAdapter adapter;
     private GetItemVisions getItemVisions;
     private GetVisionTableName getVisionTableName;
     private GetVisionInfo getVisionInfo;
-    private int intReceive, intPayment, intProfit, intLeftover;
+    private int intReceive, intPayment, intProfit, intLeftover, newReceive, newPayment, newProfit, newLeftover;
     private View btnReceive, btnPayment;
+    private GetPriceFromServer getPriceFromServer;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -212,13 +214,48 @@ public class MainActivity extends AppCompatActivity {
         receiveDialog.setContentView(R.layout.receive_dialog_layout);
         EditText edtReceive = receiveDialog.findViewById(R.id.edt_receive);
         Button Voice = receiveDialog.findViewById(R.id.btn_voice_receive);
-        Button save = receiveDialog.findViewById(R.id.btn_ok_receive);
-        Button cancel = receiveDialog.findViewById(R.id.btn_cancel_receive);
+        Button btnSave = receiveDialog.findViewById(R.id.btn_ok_receive);
+        Button btnCancel = receiveDialog.findViewById(R.id.btn_cancel_receive);
+
+        getPriceFromServer.getPriceFromServer(visionTblName, dateVision);
+
+        getPriceFromServer.setOnGetPriceFromServerListener(() -> {
+
+            getPriceFromServerResult = getPriceFromServer.getResult();
+
+            netOneDayVision = getPriceFromServerResult.get(0);
+            netReceive = getPriceFromServerResult.get(1);
+            netPayment = getPriceFromServerResult.get(2);
+            netProfit = getPriceFromServerResult.get(3);
+            netLeftover = getPriceFromServerResult.get(4);
+            netIsTick = getPriceFromServerResult.get(5);
+        });
+
         receiveDialog.create();
         receiveDialog.show();
 
-        cancel.setOnClickListener(view -> receiveDialog.dismiss());
+        btnCancel.setOnClickListener(view -> receiveDialog.dismiss());
 
+        btnSave.setOnClickListener(view -> {
+            String strMoney = edtReceive.getText().toString().trim();
+            int intMoney = Integer.parseInt(strMoney);
+
+            if (TextUtils.isEmpty(strMoney)) {
+                toast.showToast(getResources().getString(R.string.moneyError), false);
+
+            }else {
+
+                stringToInteger();
+
+                newReceive = intReceive + intMoney;
+                newProfit = newReceive - intPayment;
+                newLeftover = Integer.parseInt(netOneDayVision) - newProfit;
+
+                toast.showToast(newReceive + " | " + newProfit + " | " + newLeftover, false);
+
+            }
+
+        });
 
     }
 
@@ -677,6 +714,8 @@ public class MainActivity extends AppCompatActivity {
         btnReceive = findViewById(R.id.btn_receive_id);
 
         btnPayment = findViewById(R.id.btn_payment_id);
+
+        getPriceFromServer = new GetPriceFromServer();
     }
 
 
