@@ -108,8 +108,8 @@ public class ActLogin extends AppCompatActivity {
                         ArrayList<String> list = getUser.getResult();
 
                         if (!list.get(0).equals("") && !list.get(1).equals("") && !list.get(2).equals("")) {
-
-                            ActSplash.editor.putString(UserItems.USER_MAIL, list.get(0));
+                            ActSplash.editor.putString(UserItems.USER_MAIL, userMail);
+                            ActSplash.editor.putString(UserItems.MAIL, list.get(0));
                             ActSplash.editor.putString(UserItems.USERNAME, list.get(1));
                             ActSplash.editor.putString(UserItems.PASSWORD, list.get(2));
                             ActSplash.editor.putBoolean(UserItems.IS_WRITE_USER_INFO, true);
