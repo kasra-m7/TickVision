@@ -54,6 +54,7 @@
                 android:fontFamily="@font/iran_sans"
                 android:gravity="center"
                 android:hint="@string/receive"
+                android:textColor="@color/accentColor"
                 android:inputType="number"
                 android:textColorHint="#991E9DF1"
                 android:textCursorDrawable="@drawable/blue_cursor"
@@ -72,29 +73,29 @@
 
             <Button
                 android:id="@+id/btn_ok_receive"
-                android:layout_width="110dp"
-                android:layout_height="38dp"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
                 android:layout_gravity="start"
                 android:background="@drawable/btn_background_blue"
                 android:fontFamily="@font/iran_sans_bold"
                 android:text="@string/savePrice"
                 android:textColor="@color/primaryUltraLightColor"
-                android:textSize="@dimen/btnTextSize"
+                android:textSize="@dimen/normalTextSize"
                 tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
             <View
-                android:layout_width="60dp"
+                android:layout_width="50dp"
                 android:layout_height="1dp"/>
 
             <Button
                 android:id="@+id/btn_cancel_receive"
-                android:layout_width="110dp"
-                android:layout_height="38dp"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
                 android:layout_gravity="end"
                 android:background="@drawable/btn_background_blue"
                 android:fontFamily="@font/iran_sans_bold"
                 android:text="@string/cancelText"
                 android:textColor="@color/primaryUltraLightColor"
-                android:textSize="@dimen/btnTextSize"
+                android:textSize="@dimen/normalTextSize"
                 tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
         </LinearLayout>

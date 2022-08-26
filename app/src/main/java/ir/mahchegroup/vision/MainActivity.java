@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnReceive.setOnClickListener(view -> {
-
+            createReceiveDialog();
         });
 
 
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         Dialog receiveDialog = new Dialog(this);
         receiveDialog.setContentView(R.layout.receive_dialog_layout);
         EditText edtReceive = receiveDialog.findViewById(R.id.edt_receive);
-        Button Voice = receiveDialog.findViewById(R.id.btn_voice_receive);
+        ImageView voice = receiveDialog.findViewById(R.id.btn_voice_receive);
         Button btnSave = receiveDialog.findViewById(R.id.btn_ok_receive);
         Button btnCancel = receiveDialog.findViewById(R.id.btn_cancel_receive);
 
@@ -229,34 +229,38 @@ public class MainActivity extends AppCompatActivity {
             netProfit = getPriceFromServerResult.get(3);
             netLeftover = getPriceFromServerResult.get(4);
             netIsTick = getPriceFromServerResult.get(5);
+
+            Log.e("getTableInfo", getPriceFromServerResult.get(0) + " | " + getPriceFromServerResult.get(1) + " | " + getPriceFromServerResult.get(2) + " | " + getPriceFromServerResult.get(3) + " | " + getPriceFromServerResult.get(4) + " | " + getPriceFromServerResult.get(5));
+
         });
 
         receiveDialog.create();
         receiveDialog.show();
 
+        voice.setOnClickListener(view -> {
+            toast.showToast("امکان ثبت صوتی بلغ به زودی به برنامه اضافه خواهد شد", false);
+        });
+
         btnCancel.setOnClickListener(view -> receiveDialog.dismiss());
 
         btnSave.setOnClickListener(view -> {
             String strMoney = edtReceive.getText().toString().trim();
-            int intMoney = Integer.parseInt(strMoney);
 
             if (TextUtils.isEmpty(strMoney)) {
                 toast.showToast(getResources().getString(R.string.moneyError), false);
 
-            }else {
-
+            } else {
+                int intMoney = Integer.parseInt(strMoney);
                 stringToInteger();
 
                 newReceive = intReceive + intMoney;
                 newProfit = newReceive - intPayment;
                 newLeftover = Integer.parseInt(netOneDayVision) - newProfit;
 
-                toast.showToast(newReceive + " | " + newProfit + " | " + newLeftover, false);
+
 
             }
-
         });
-
     }
 
 
@@ -495,7 +499,7 @@ public class MainActivity extends AppCompatActivity {
 
             ActSplash.editor.putString(UserItems.VISION_TABLE_NAME, visionTblName).apply();
 
-           getVisionTableInfo();
+            getVisionTableInfo();
         });
     }
 
