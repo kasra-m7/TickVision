@@ -11,9 +11,9 @@ public class SetTimerNumInServer {
         AndroidNetworking.post(UserItems.PATH + UserItems.SET_TIMER_NUM_IN_SERVER)
                 .addBodyParameter(UserItems.VISION_TABLE_NAME, visionTbl)
                 .addBodyParameter(UserItems.DATE_VISION, date)
-                .addBodyParameter(UserItems.S, s)
-                .addBodyParameter(UserItems.M, m)
-                .addBodyParameter(UserItems.H, h)
+                .addBodyParameter(UserItems.SS, s)
+                .addBodyParameter(UserItems.MM, m)
+                .addBodyParameter(UserItems.HH, h)
                 .setTag("set_timer_num")
                 .build()
                 .getAsString(new StringRequestListener() {

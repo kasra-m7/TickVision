@@ -51,6 +51,7 @@ import ir.mahchegroup.vision.network.CreateVisionTable;
 import ir.mahchegroup.vision.network.GetItemVisions;
 import ir.mahchegroup.vision.network.GetNumberNewVision;
 import ir.mahchegroup.vision.network.GetPriceFromServer;
+import ir.mahchegroup.vision.network.GetTimerNumFromServer;
 import ir.mahchegroup.vision.network.GetVisionInfo;
 import ir.mahchegroup.vision.network.GetVisionTableName;
 import ir.mahchegroup.vision.network.HasVision;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private String nameVision, moneyVision, dayVision, dateVision, numberNewVisionResult,
             recyclerClickItem, selectedVision, userTbl, netMoneyVision, netDayVision, netOneDayVision,
             netReceive, netPayment, netProfit, netLeftover, netSs, netMm, netHh, netIsTick, strReceive, strPayment,
-            strProfit, strLeftover, visionTblName, strMoney;
+            strProfit, strLeftover, visionTblName, strMoney, strS, strM, strH;
     private HasVision hasVision;
     private LoadingDialog loading;
     private SnackBar snack;
@@ -88,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
     private GetNumberNewVision getNumberNewVision;
     private CreateVisionTable createVisionTable;
     private ToastBox toast;
-    private ArrayList<String> nameVisionResult, isTickResult, getVisionInfoResult, getPriceFromServerResult;
+    private ArrayList<String> nameVisionResult, isTickResult, getVisionInfoResult, getPriceFromServerResult,
+    getTimerNumResult;
     private ArrayList<RvItemsSelectVision> rvItems;
     private SelectVisionAdapter adapter;
     private GetItemVisions getItemVisions;
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     private GetPriceFromServer getPriceFromServer;
     private SetPriceInServer setPriceInServer;
     private SetTimerNumInServer setTimerNumInServer;
+    private GetTimerNumFromServer getTimerNumFromServer;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -189,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 isRunTimerService = true;
 
             } else {
+
                 setTimerNumInServer.setTimerNum(visionTblName, dateVision, String.valueOf(S), String.valueOf(M), String.valueOf(H));
 
                 btnStartTimerService.setImageResource(R.drawable.timer_off);
@@ -266,8 +270,22 @@ public class MainActivity extends AppCompatActivity {
                     if (result.equals("success")) {
                         receiveDialog.dismiss();
 
-                        getVisionInfo();
-                        getVisionTableInfo();
+                        getTimerNumFromServer.getTimerNum(visionTblName, dateVision);
+
+                        getTimerNumFromServer.setOnGetTimerNumListener(() -> {
+                            getTimerNumResult = getTimerNumFromServer.getResult();
+
+                            strS = getTimerNumResult.get(0);
+                            strM = getTimerNumResult.get(1);
+                            strH = getTimerNumResult.get(2);
+
+                            S = Integer.parseInt(strS);
+                            M = Integer.parseInt(strM);
+                            H = Integer.parseInt(strH);
+
+                            getVisionInfo();
+                            getVisionTableInfo();
+                        });
 
                         strMoney = "";
 
@@ -618,8 +636,8 @@ public class MainActivity extends AppCompatActivity {
             setTextTableInfo();
 
             S = Integer.parseInt(netSs);
-            M = Integer.parseInt(netSs);
-            H = Integer.parseInt(netSs);
+            M = Integer.parseInt(netMm);
+            H = Integer.parseInt(netHh);
 
             setTvTimerText();
 
@@ -671,7 +689,7 @@ public class MainActivity extends AppCompatActivity {
     private void setNegativeTextTable() {
         if (intLeftover < 0) {
             negativeLeftover = Math.abs(intLeftover);
-            tvTextLeftover.setText(negativeLeftover + "   ریال");
+            tvTextLeftover.setText(FaNum.convert(splitDigits(negativeLeftover) + "   ریال"));
             tvTitleLeftover.setText("مازاد");
         }else {
             tvTextLeftover.setText(strLeftover + "   ریال");
@@ -680,7 +698,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (intProfit < 0) {
             negativeProfit = Math.abs(intProfit);
-            tvTextProfit.setText(negativeProfit + "   ریال");
+            tvTextProfit.setText(FaNum.convert(splitDigits(negativeProfit) + "   ریال"));
             tvTitleProfit.setText("زیان");
         }else {
             tvTextProfit.setText(strProfit + "   ریال");
@@ -831,6 +849,8 @@ public class MainActivity extends AppCompatActivity {
         setPriceInServer = new SetPriceInServer();
 
         setTimerNumInServer = new SetTimerNumInServer();
+
+        getTimerNumFromServer = new GetTimerNumFromServer();
     }
 
 

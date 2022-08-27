@@ -37,9 +37,10 @@ public class UserItems {
     public static final String PAYMENT = "item_payment";
     public static final String PROFIT = "item_profit";
     public static final String LEFTOVER = "item_leftover";
-    public static final String S = "item_s";
-    public static final String M = "item_m";
-    public static final String H = "item_h";
+    public static final String SS = "item_ss";
+    public static final String MM = "item_mm";
+    public static final String HH = "item_hh";
+    public static final String GET_TIMER_NUM = "get_timer_num.php";
 
     private String mail, username, password, money_vision, day_vision, one_day_vision, receive, payment, profit, leftover, ss, mm, hh, is_tick;
 
