@@ -55,6 +55,7 @@ import ir.mahchegroup.vision.network.GetVisionInfo;
 import ir.mahchegroup.vision.network.GetVisionTableName;
 import ir.mahchegroup.vision.network.HasVision;
 import ir.mahchegroup.vision.network.SetPriceInServer;
+import ir.mahchegroup.vision.network.SetTimerNumInServer;
 import ir.mahchegroup.vision.select_vision_recycler.RecyclerItemClick;
 import ir.mahchegroup.vision.select_vision_recycler.RvItemsSelectVision;
 import ir.mahchegroup.vision.select_vision_recycler.SelectVisionAdapter;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private View btnReceive, btnPayment;
     private GetPriceFromServer getPriceFromServer;
     private SetPriceInServer setPriceInServer;
+    private SetTimerNumInServer setTimerNumInServer;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -185,7 +187,10 @@ public class MainActivity extends AppCompatActivity {
                 btnStartTimerService.setImageResource(R.drawable.timer_on);
                 startService(startTimer);
                 isRunTimerService = true;
+
             } else {
+                setTimerNumInServer.setTimerNum(visionTblName, dateVision, String.valueOf(S), String.valueOf(M), String.valueOf(H));
+
                 btnStartTimerService.setImageResource(R.drawable.timer_off);
                 stopService(startTimer);
                 isRunTimerService = false;
@@ -220,12 +225,11 @@ public class MainActivity extends AppCompatActivity {
 
             getPriceFromServerResult = getPriceFromServer.getResult();
 
-            netOneDayVision = getPriceFromServerResult.get(0);
-            netReceive = getPriceFromServerResult.get(1);
-            netPayment = getPriceFromServerResult.get(2);
-            netProfit = getPriceFromServerResult.get(3);
-            netLeftover = getPriceFromServerResult.get(4);
-            netIsTick = getPriceFromServerResult.get(5);
+            netReceive = getPriceFromServerResult.get(0);
+            netPayment = getPriceFromServerResult.get(1);
+            netProfit = getPriceFromServerResult.get(2);
+            netLeftover = getPriceFromServerResult.get(3);
+            netIsTick = getPriceFromServerResult.get(4);
 
         });
 
@@ -252,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                 newReceive = intReceive + intMoney;
                 newPayment = intPayment;
                 newProfit = newReceive - intPayment;
-                newLeftover = Integer.parseInt(netLeftover) + newReceive;
+                newLeftover = intLeftover - intMoney;
 
                 setPriceInServer.setPriceInServer(visionTblName, dateVision, String.valueOf(newReceive), String.valueOf(newPayment), String.valueOf(newProfit), String.valueOf(newLeftover));
 
@@ -291,12 +295,11 @@ public class MainActivity extends AppCompatActivity {
 
             getPriceFromServerResult = getPriceFromServer.getResult();
 
-            netOneDayVision = getPriceFromServerResult.get(0);
-            netReceive = getPriceFromServerResult.get(1);
-            netPayment = getPriceFromServerResult.get(2);
-            netProfit = getPriceFromServerResult.get(3);
-            netLeftover = getPriceFromServerResult.get(4);
-            netIsTick = getPriceFromServerResult.get(5);
+            netReceive = getPriceFromServerResult.get(0);
+            netPayment = getPriceFromServerResult.get(1);
+            netProfit = getPriceFromServerResult.get(2);
+            netLeftover = getPriceFromServerResult.get(3);
+            netIsTick = getPriceFromServerResult.get(4);
 
         });
 
@@ -323,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
                 newReceive = intReceive;
                 newPayment = intPayment + intMoney;
                 newProfit = newReceive - newPayment;
-                newLeftover = Integer.parseInt(netLeftover) - newPayment;
+                newLeftover = intLeftover + intMoney;
 
                 setPriceInServer.setPriceInServer(visionTblName, dateVision, String.valueOf(newReceive), String.valueOf(newPayment), String.valueOf(newProfit), String.valueOf(newLeftover));
 
@@ -674,6 +677,15 @@ public class MainActivity extends AppCompatActivity {
             tvTextLeftover.setText(strLeftover + "   ریال");
             tvTitleLeftover.setText("باقیمانده");
         }
+
+        if (intProfit < 0) {
+            negativeProfit = Math.abs(intProfit);
+            tvTextProfit.setText(negativeProfit + "   ریال");
+            tvTitleProfit.setText("زیان");
+        }else {
+            tvTextProfit.setText(strProfit + "   ریال");
+            tvTitleProfit.setText("سود");
+        }
     }
 
 
@@ -681,8 +693,6 @@ public class MainActivity extends AppCompatActivity {
     private void setTextTableInfo() {
         tvTextReceive.setText(strReceive + "   ریال");
         tvTextPayment.setText(strPayment + "   ریال");
-        tvTextProfit.setText(strProfit + "   ریال");
-
     }
 
 
@@ -819,6 +829,8 @@ public class MainActivity extends AppCompatActivity {
         getPriceFromServer = new GetPriceFromServer();
 
         setPriceInServer = new SetPriceInServer();
+
+        setTimerNumInServer = new SetTimerNumInServer();
     }
 
 

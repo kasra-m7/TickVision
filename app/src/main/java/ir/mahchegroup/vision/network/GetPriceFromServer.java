@@ -35,7 +35,6 @@ public class GetPriceFromServer {
                 .getAsObject(UserItems.class, new ParsedRequestListener<UserItems>() {
                     @Override
                     public void onResponse(UserItems response) {
-                        String oneDayVision = response.getOneDayVision();
                         String receive = response.getReceive();
                         String payment = response.getPayment();
                         String profit = response.getProfit();
@@ -44,7 +43,6 @@ public class GetPriceFromServer {
 
                         result = new ArrayList<>();
 
-                        result.add(oneDayVision);
                         result.add(receive);
                         result.add(payment);
                         result.add(profit);
