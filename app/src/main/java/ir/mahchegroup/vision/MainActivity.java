@@ -239,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(view -> receiveDialog.dismiss());
 
         btnSave.setOnClickListener(view -> {
+            Log.e("leftover receive", netLeftover);
             strMoney = edtReceive.getText().toString().trim();
 
             if (TextUtils.isEmpty(strMoney)) {
@@ -251,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                 newReceive = intReceive + intMoney;
                 newPayment = intPayment;
                 newProfit = newReceive - intPayment;
-                newLeftover = Integer.parseInt(netOneDayVision) - newProfit;
+                newLeftover = Integer.parseInt(netLeftover) + newReceive;
 
                 setPriceInServer.setPriceInServer(visionTblName, dateVision, String.valueOf(newReceive), String.valueOf(newPayment), String.valueOf(newProfit), String.valueOf(newLeftover));
 
@@ -309,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(view -> paymentDialog.dismiss());
 
         btnSave.setOnClickListener(view -> {
+            Log.e("leftover payment", netLeftover);
             strMoney = edtPayment.getText().toString().trim();
 
             if (TextUtils.isEmpty(strMoney)) {
@@ -321,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
                 newReceive = intReceive;
                 newPayment = intPayment + intMoney;
                 newProfit = newReceive - newPayment;
-                newLeftover = Integer.parseInt(netOneDayVision) + newProfit;
+                newLeftover = Integer.parseInt(netLeftover) - newPayment;
 
                 setPriceInServer.setPriceInServer(visionTblName, dateVision, String.valueOf(newReceive), String.valueOf(newPayment), String.valueOf(newProfit), String.valueOf(newLeftover));
 
@@ -333,6 +335,8 @@ public class MainActivity extends AppCompatActivity {
 
                         getVisionInfo();
                         getVisionTableInfo();
+
+                        strMoney = "";
 
                         toast.showToast("اطلاعات شما با موفقیت ذخیره شد", true);
                     }else {
