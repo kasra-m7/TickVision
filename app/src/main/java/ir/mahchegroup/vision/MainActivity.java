@@ -78,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private int counterAddVisionDialog = 0;
     private String nameVision, moneyVision, dayVision, dateVision, numberNewVisionResult,
             recyclerClickItem, selectedVision, userTbl, netMoneyVision, netDayVision, netOneDayVision,
-            netReceive, netPayment, netProfit, netLeftover, netSs, netMm, netHh, netIsTick, strReceive, strPayment, strProfit, strLeftover, visionTblName;
+            netReceive, netPayment, netProfit, netLeftover, netSs, netMm, netHh, netIsTick, strReceive, strPayment,
+            strProfit, strLeftover, visionTblName, strMoney;
     private HasVision hasVision;
     private LoadingDialog loading;
     private SnackBar snack;
@@ -193,14 +194,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        btnReceive.setOnClickListener(view -> {
-            createReceiveDialog();
-        });
+        btnReceive.setOnClickListener(view -> createReceiveDialog());
 
 
-        btnPayment.setOnClickListener(view -> {
-            toast.showToast("مبلغ پرداختی", false);
-        });
+        btnPayment.setOnClickListener(view -> createPaymentDialog());
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
@@ -242,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(view -> receiveDialog.dismiss());
 
         btnSave.setOnClickListener(view -> {
-            String strMoney = edtReceive.getText().toString().trim();
+            strMoney = edtReceive.getText().toString().trim();
 
             if (TextUtils.isEmpty(strMoney)) {
                 toast.showToast(getResources().getString(R.string.moneyError), false);
@@ -264,7 +261,78 @@ public class MainActivity extends AppCompatActivity {
                     if (result.equals("success")) {
                         receiveDialog.dismiss();
 
-                        setTextTableInfo();
+                        getVisionInfo();
+                        getVisionTableInfo();
+
+                        strMoney = "";
+
+                        toast.showToast("اطلاعات شما با موفقیت ذخیره شد", true);
+                    }else {
+                        toast.showToast("ذخیره اطلاعات انجام نشد", false);
+                    }
+                });
+            }
+        });
+    }
+
+
+    private void createPaymentDialog() {
+        Dialog paymentDialog = new Dialog(this);
+        paymentDialog.setContentView(R.layout.payment_dialog_layout);
+        EditText edtPayment = paymentDialog.findViewById(R.id.edt_payment);
+        ImageView voice = paymentDialog.findViewById(R.id.btn_voice_payment);
+        Button btnSave = paymentDialog.findViewById(R.id.btn_ok_payment);
+        Button btnCancel = paymentDialog.findViewById(R.id.btn_cancel_payment);
+
+        getPriceFromServer.getPriceFromServer(visionTblName, dateVision);
+
+        getPriceFromServer.setOnGetPriceFromServerListener(() -> {
+
+            getPriceFromServerResult = getPriceFromServer.getResult();
+
+            netOneDayVision = getPriceFromServerResult.get(0);
+            netReceive = getPriceFromServerResult.get(1);
+            netPayment = getPriceFromServerResult.get(2);
+            netProfit = getPriceFromServerResult.get(3);
+            netLeftover = getPriceFromServerResult.get(4);
+            netIsTick = getPriceFromServerResult.get(5);
+
+        });
+
+        paymentDialog.create();
+        paymentDialog.show();
+
+        voice.setOnClickListener(view -> {
+            toast.showToast("امکان ثبت صوتی مبلغ به زودی به برنامه اضافه خواهد شد", false);
+        });
+
+        btnCancel.setOnClickListener(view -> paymentDialog.dismiss());
+
+        btnSave.setOnClickListener(view -> {
+            strMoney = edtPayment.getText().toString().trim();
+
+            if (TextUtils.isEmpty(strMoney)) {
+                toast.showToast(getResources().getString(R.string.moneyError), false);
+
+            } else {
+                int intMoney = Integer.parseInt(strMoney);
+                stringToInteger();
+
+                newReceive = intReceive;
+                newPayment = intPayment + intMoney;
+                newProfit = newReceive - newPayment;
+                newLeftover = Integer.parseInt(netOneDayVision) + newProfit;
+
+                setPriceInServer.setPriceInServer(visionTblName, dateVision, String.valueOf(newReceive), String.valueOf(newPayment), String.valueOf(newProfit), String.valueOf(newLeftover));
+
+                setPriceInServer.setOnSetPriceInServerListener(() -> {
+                    String result = setPriceInServer.getResult();
+
+                    if (result.equals("success")) {
+                        paymentDialog.dismiss();
+
+                        getVisionInfo();
+                        getVisionTableInfo();
 
                         toast.showToast("اطلاعات شما با موفقیت ذخیره شد", true);
                     }else {

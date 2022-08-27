@@ -37,7 +37,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/btn_voice_receive"
+                android:id="@+id/btn_voice_payment"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -46,7 +46,7 @@
                 tools:ignore="ContentDescription,ImageContrastCheck" />
 
             <EditText
-                android:id="@+id/edt_receive"
+                android:id="@+id/edt_payment"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -72,7 +72,7 @@
             android:layout_marginTop="25dp">
 
             <Button
-                android:id="@+id/btn_ok_receive"
+                android:id="@+id/btn_ok_payment"
                 android:layout_width="100dp"
                 android:layout_height="35dp"
                 android:layout_gravity="start"
@@ -87,7 +87,7 @@
                 android:layout_height="1dp"/>
 
             <Button
-                android:id="@+id/btn_cancel_receive"
+                android:id="@+id/btn_cancel_payment"
                 android:layout_width="100dp"
                 android:layout_height="35dp"
                 android:layout_gravity="end"
