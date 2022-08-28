@@ -20,17 +20,35 @@
             android:layout_gravity="center"
             android:padding="10dp">
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_gravity="center"
+                android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/table_title_background"
                 android:fontFamily="@font/iran_sans_bold"
                 android:gravity="center"
+                android:layout_centerInParent="true"
                 android:text="@string/dailyPerformance"
                 android:textColor="@color/primaryUltraLightColor"
                 android:textSize="@dimen/titleTextSize"
                 tools:ignore="TextContrastCheck" />
+
+            <ImageView
+                android:id="@+id/img_tick"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/tick"
+                android:visibility="invisible"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                tools:ignore="ContentDescription" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

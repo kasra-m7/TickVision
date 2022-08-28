@@ -15,6 +15,7 @@ public class UserItems {
     public static final String GET_PRICE_FROM_SERVER = "get_price_from_server.php";
     public static final String SET_PRICE_IN_SERVER = "set_price_in_server.php";
     public static final String SET_TIMER_NUM_IN_SERVER = "set_timer_num_in_server.php";
+    public static final String SET_TICK_VISION = "set_tick_vision.php";
 
     public static final String IS_FIRST_TIME = "is_first_time";
     public static final String IS_WRITE_USER_INFO = "is_write_user_info";
@@ -41,6 +42,7 @@ public class UserItems {
     public static final String MM = "item_mm";
     public static final String HH = "item_hh";
     public static final String GET_TIMER_NUM = "get_timer_num.php";
+    public static final String TICK_VISION = "item_tick_vision";
 
     private String mail, username, password, money_vision, day_vision, one_day_vision, receive, payment, profit, leftover, ss, mm, hh, is_tick;
 

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -25,11 +24,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +56,7 @@ import ir.mahchegroup.vision.network.GetVisionInfo;
 import ir.mahchegroup.vision.network.GetVisionTableName;
 import ir.mahchegroup.vision.network.HasVision;
 import ir.mahchegroup.vision.network.SetPriceInServer;
+import ir.mahchegroup.vision.network.SetTickVision;
 import ir.mahchegroup.vision.network.SetTimerNumInServer;
 import ir.mahchegroup.vision.select_vision_recycler.RecyclerItemClick;
 import ir.mahchegroup.vision.select_vision_recycler.RvItemsSelectVision;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private CreateVisionTable createVisionTable;
     private ToastBox toast;
     private ArrayList<String> nameVisionResult, isTickResult, getVisionInfoResult, getPriceFromServerResult,
-    getTimerNumResult;
+            getTimerNumResult;
     private ArrayList<RvItemsSelectVision> rvItems;
     private SelectVisionAdapter adapter;
     private GetItemVisions getItemVisions;
@@ -102,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
     private SetPriceInServer setPriceInServer;
     private SetTimerNumInServer setTimerNumInServer;
     private GetTimerNumFromServer getTimerNumFromServer;
+    private ImageView imgTick;
+    private Animation tickIn, tickOut;
+    private SetTickVision setTickVision;
+    private LinearLayout disableLayout, enableLayout;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -215,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("InflateParams")
     private void createReceiveDialog() {
         Dialog receiveDialog = new Dialog(this);
         receiveDialog.setContentView(R.layout.receive_dialog_layout);
@@ -262,6 +268,17 @@ public class MainActivity extends AppCompatActivity {
                 newProfit = newReceive - intPayment;
                 newLeftover = intLeftover - intMoney;
 
+                if (intLeftover > 0 && newLeftover <= 0) {
+
+                    enableLayout.setVisibility(View.GONE);
+                    disableLayout.setVisibility(View.VISIBLE);
+
+                    imgTick.setVisibility(View.VISIBLE);
+                    imgTick.startAnimation(tickIn);
+
+                    setTickVision.setTickVision(visionTblName, dateVision, userTbl, selectedVision, "1");
+                }
+
                 setPriceInServer.setPriceInServer(visionTblName, dateVision, String.valueOf(newReceive), String.valueOf(newPayment), String.valueOf(newProfit), String.valueOf(newLeftover));
 
                 setPriceInServer.setOnSetPriceInServerListener(() -> {
@@ -290,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
                         strMoney = "";
 
                         toast.showToast("اطلاعات شما با موفقیت ذخیره شد", true);
-                    }else {
+                    } else {
                         toast.showToast("ذخیره اطلاعات انجام نشد", false);
                     }
                 });
@@ -346,6 +363,13 @@ public class MainActivity extends AppCompatActivity {
                 newProfit = newReceive - newPayment;
                 newLeftover = intLeftover + intMoney;
 
+                if (intLeftover <= 0 && newLeftover > 0) {
+                    imgTick.setVisibility(View.INVISIBLE);
+                    imgTick.startAnimation(tickOut);
+
+                    setTickVision.setTickVision(visionTblName, dateVision, userTbl, selectedVision, "0");
+                }
+
                 setPriceInServer.setPriceInServer(visionTblName, dateVision, String.valueOf(newReceive), String.valueOf(newPayment), String.valueOf(newProfit), String.valueOf(newLeftover));
 
                 setPriceInServer.setOnSetPriceInServerListener(() -> {
@@ -360,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
                         strMoney = "";
 
                         toast.showToast("اطلاعات شما با موفقیت ذخیره شد", true);
-                    }else {
+                    } else {
                         toast.showToast("ذخیره اطلاعات انجام نشد", false);
                     }
                 });
@@ -554,7 +578,7 @@ public class MainActivity extends AppCompatActivity {
             nameVisionResult = getItemVisions.getNameVisionsResult();
             isTickResult = getItemVisions.getIsTickResult();
 
-            for (int i = 1; i < nameVisionResult.size(); i++) {
+            for (int i = 1; i < isTickResult.size(); i++) {
                 rvItems.add(new RvItemsSelectVision(nameVisionResult.get(i), isTickResult.get(i)));
             }
             adapter.notifyDataSetChanged();
@@ -608,6 +632,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void getVisionTableInfo() {
+
+        loading.ShowDialog();
+
         getVisionInfo.getVisionInfo(visionTblName, dateVision);
 
         getVisionInfo.setOnGetVisionInfoListener(() -> {
@@ -625,21 +652,35 @@ public class MainActivity extends AppCompatActivity {
             netHh = getVisionInfoResult.get(9);
             netIsTick = getVisionInfoResult.get(10);
 
-            stringToInteger();
+            new Handler().postDelayed(() -> {
 
-            setColorTableInfo();
+                if (netIsTick.equals("0")) {
+                    enableLayout.setVisibility(View.VISIBLE);
+                    disableLayout.setVisibility(View.GONE);
+                    imgTick.setVisibility(View.INVISIBLE);
+                } else {
+                    enableLayout.setVisibility(View.GONE);
+                    disableLayout.setVisibility(View.VISIBLE);
+                    imgTick.setVisibility(View.VISIBLE);
+                }
 
-            integerToString();
+                stringToInteger();
 
-            setNegativeTextTable();
+                setColorTableInfo();
 
-            setTextTableInfo();
+                integerToString();
 
-            S = Integer.parseInt(netSs);
-            M = Integer.parseInt(netMm);
-            H = Integer.parseInt(netHh);
+                setNegativeTextTable();
 
-            setTvTimerText();
+                setTextTableInfo();
+
+                S = Integer.parseInt(netSs);
+                M = Integer.parseInt(netMm);
+                H = Integer.parseInt(netHh);
+
+                setTvTimerText();
+                loading.dismissDialog();
+            }, 1000);
 
         });
     }
@@ -691,7 +732,7 @@ public class MainActivity extends AppCompatActivity {
             negativeLeftover = Math.abs(intLeftover);
             tvTextLeftover.setText(FaNum.convert(splitDigits(negativeLeftover) + "   ریال"));
             tvTitleLeftover.setText("مازاد");
-        }else {
+        } else {
             tvTextLeftover.setText(strLeftover + "   ریال");
             tvTitleLeftover.setText("باقیمانده");
         }
@@ -700,7 +741,7 @@ public class MainActivity extends AppCompatActivity {
             negativeProfit = Math.abs(intProfit);
             tvTextProfit.setText(FaNum.convert(splitDigits(negativeProfit) + "   ریال"));
             tvTitleProfit.setText("زیان");
-        }else {
+        } else {
             tvTextProfit.setText(strProfit + "   ریال");
             tvTitleProfit.setText("سود");
         }
@@ -796,6 +837,9 @@ public class MainActivity extends AppCompatActivity {
 
         tvTimer = findViewById(R.id.tv_timer);
 
+        tickIn = AnimationUtils.loadAnimation(this, R.anim.fade_in_tick);
+        tickOut = AnimationUtils.loadAnimation(this, R.anim.fade_out_tick);
+
         tvTitleReceive = findViewById(R.id.tv_title_receive);
         tvTitlePayment = findViewById(R.id.tv_title_payment);
         tvTitleProfit = findViewById(R.id.tv_title_profit);
@@ -834,6 +878,8 @@ public class MainActivity extends AppCompatActivity {
 
         tvToolbar = findViewById(R.id.tv_toolbar);
 
+        imgTick = tableView.findViewById(R.id.img_tick);
+
         getVisionTableName = new GetVisionTableName();
 
         getVisionInfo = new GetVisionInfo();
@@ -851,6 +897,12 @@ public class MainActivity extends AppCompatActivity {
         setTimerNumInServer = new SetTimerNumInServer();
 
         getTimerNumFromServer = new GetTimerNumFromServer();
+
+        setTickVision = new SetTickVision();
+
+        disableLayout = findViewById(R.id.disableLayout);
+
+        enableLayout = findViewById(R.id.enableLayout);
     }
 
 

@@ -54,6 +54,31 @@
                 android:layout_marginTop="30dp" />
 
             <LinearLayout
+                android:id="@+id/disableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tableViewId"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:weightSum="2.35">
+
+                <ir.mahchegroup.vision.DReceiveView
+                    android:id="@+id/btn_d_receive_id"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+                <ir.mahchegroup.vision.DPaymentView
+                    android:id="@+id/btn_d_payment_id"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/enableLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tableViewId"
