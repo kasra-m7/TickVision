@@ -578,7 +578,7 @@ public class MainActivity extends AppCompatActivity {
             nameVisionResult = getItemVisions.getNameVisionsResult();
             isTickResult = getItemVisions.getIsTickResult();
 
-            for (int i = 1; i < isTickResult.size(); i++) {
+            for (int i = 1; i < nameVisionResult.size(); i++) {
                 rvItems.add(new RvItemsSelectVision(nameVisionResult.get(i), isTickResult.get(i)));
             }
             adapter.notifyDataSetChanged();
