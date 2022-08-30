@@ -2,8 +2,11 @@ package ir.mahchegroup.vision;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -28,18 +31,48 @@ public class ActSplash extends AppCompatActivity {
         // مقدار دهی اولیه
         init();
 
+        if (!isConnect()) {
+            Intent intent = new Intent(ActSplash.this, ActDisconnect.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("activity", "ActSplash");
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+            finish();
+        } else {
 
-        // چک کردن اولین ورود کاربر به اپ
-        isFirstTime = shared.getBoolean(IS_FIRST_TIME, true);
+            // چک کردن اولین ورود کاربر به اپ
+            isFirstTime = shared.getBoolean(IS_FIRST_TIME, true);
 
 
-        // ست کردن انیمیشن تصویر معرفی
-        setAnim(100, View.VISIBLE, fadeIn);
-        setAnim(5000, View.INVISIBLE, fadeOut);
+            // ست کردن انیمیشن تصویر معرفی
+            setAnim(100, View.VISIBLE, fadeIn);
+            setAnim(5000, View.INVISIBLE, fadeOut);
 
 
-        // ست کردن اینتنت و مشخص کردن رفتن به کدام اکتیویتی در چه صورتی
-        setNextActivity();
+            // ست کردن اینتنت و مشخص کردن رفتن به کدام اکتیویتی در چه صورتی
+            setNextActivity();
+        }
+    }
+
+
+    private boolean isConnect() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifi != null && wifi.isConnectedOrConnecting()) {
+            return true;
+        }
+
+        NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (mobile != null && mobile.isConnectedOrConnecting()) {
+            return true;
+        }
+
+        NetworkInfo active = cm.getActiveNetworkInfo();
+        if (active != null && active.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -54,7 +87,7 @@ public class ActSplash extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            overridePendingTransition(0,0);
+            overridePendingTransition(0, 0);
             finish();
         }, 1000);
     }

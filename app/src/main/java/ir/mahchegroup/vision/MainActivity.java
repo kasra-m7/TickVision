@@ -254,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(view -> receiveDialog.dismiss());
 
         btnSave.setOnClickListener(view -> {
-            Log.e("leftover receive", netLeftover);
             strMoney = edtReceive.getText().toString().trim();
 
             if (TextUtils.isEmpty(strMoney)) {
@@ -308,7 +307,9 @@ public class MainActivity extends AppCompatActivity {
                         strMoney = "";
 
                         toast.showToast("اطلاعات شما با موفقیت ذخیره شد", true);
+
                     } else {
+
                         toast.showToast("ذخیره اطلاعات انجام نشد", false);
                     }
                 });
@@ -502,9 +503,9 @@ public class MainActivity extends AppCompatActivity {
 
                             new Handler().postDelayed(() -> {
 
-                                loading.dismissDialog();
-
                                 if (hasVisionResult.equals("true")) {
+                                    loading.dismissDialog();
+
                                     snack.create(getResources().getString(R.string.duplicateVision), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
 
                                 } else if (hasVisionResult.equals("false")) {
@@ -525,6 +526,8 @@ public class MainActivity extends AppCompatActivity {
                                         createVisionTable.createVisionTable(visionTableName, userTableName, dateVision, nameVision, moneyVision, dayVision, String.valueOf(oneDay));
 
                                         createVisionTable.setOnCreateVisionTableListener(() -> {
+                                            loading.dismissDialog();
+
                                             String result = createVisionTable.getResult();
 
                                             if (result.equals("success")) {
@@ -533,7 +536,6 @@ public class MainActivity extends AppCompatActivity {
                                                 toast.showToast("ذخیره اطلاعات انجام نشد", false);
                                             }
                                         });
-
                                     });
                                 }
                             }, 1600);
@@ -636,8 +638,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void getVisionTableInfo() {
 
-        loading.ShowDialog();
-
         getVisionInfo.getVisionInfo(visionTblName, dateVision);
 
         getVisionInfo.setOnGetVisionInfoListener(() -> {
@@ -655,36 +655,31 @@ public class MainActivity extends AppCompatActivity {
             netHh = getVisionInfoResult.get(9);
             netIsTick = getVisionInfoResult.get(10);
 
-            new Handler().postDelayed(() -> {
+            if (netIsTick.equals("0")) {
+                enableLayout.setVisibility(View.VISIBLE);
+                disableLayout.setVisibility(View.GONE);
+                imgTick.setVisibility(View.INVISIBLE);
+            } else {
+                enableLayout.setVisibility(View.GONE);
+                disableLayout.setVisibility(View.VISIBLE);
+                imgTick.setVisibility(View.VISIBLE);
+            }
 
-                if (netIsTick.equals("0")) {
-                    enableLayout.setVisibility(View.VISIBLE);
-                    disableLayout.setVisibility(View.GONE);
-                    imgTick.setVisibility(View.INVISIBLE);
-                } else {
-                    enableLayout.setVisibility(View.GONE);
-                    disableLayout.setVisibility(View.VISIBLE);
-                    imgTick.setVisibility(View.VISIBLE);
-                }
+            stringToInteger();
 
-                stringToInteger();
+            setColorTableInfo();
 
-                setColorTableInfo();
+            integerToString();
 
-                integerToString();
+            setNegativeTextTable();
 
-                setNegativeTextTable();
+            setTextTableInfo();
 
-                setTextTableInfo();
+            S = Integer.parseInt(netSs);
+            M = Integer.parseInt(netMm);
+            H = Integer.parseInt(netHh);
 
-                S = Integer.parseInt(netSs);
-                M = Integer.parseInt(netMm);
-                H = Integer.parseInt(netHh);
-
-                setTvTimerText();
-                loading.dismissDialog();
-            }, 1000);
-
+            setTvTimerText();
         });
     }
 

@@ -3,8 +3,11 @@ package ir.mahchegroup.vision;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -15,6 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.florent37.materialtextfield.MaterialTextField;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ir.mahchegroup.vision.message_box.LoadingDialog;
 import ir.mahchegroup.vision.message_box.SnackBar;
@@ -47,6 +53,9 @@ public class ActSignup extends AppCompatActivity {
         setTypefaceMtf(mtfUsername);
         setTypefaceMtf(mtfPassword);
         setTypefaceMtf(mtfRepeatPassword);
+
+
+        checkConnection();
 
 
         // رویداد کلیک دکمه حساب کاربری دارم
@@ -115,6 +124,40 @@ public class ActSignup extends AppCompatActivity {
         mtf.getLabel().setTypeface(tf);
         mtf.getLabel().setTextSize(getResources().getDimension(R.dimen.edtHintSize));
         mtf.getLabel().setTextColor(getResources().getColor(R.color.disable));
+    }
+
+
+    private void checkConnection() {
+        new Handler().postDelayed(() -> {
+            if (!isConnect()) {
+                Intent intent = new Intent(ActSignup.this, ActDisconnect.class);
+                intent.putExtra("activity", "ActLogin");
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
+            }
+            checkConnection();
+        }, 1000);
+    }
+
+
+    private boolean isConnect() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifi != null && wifi.isConnectedOrConnecting()) {
+            return true;
+        }
+
+        NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (mobile != null && mobile.isConnectedOrConnecting()) {
+            return true;
+        }
+
+        NetworkInfo active = cm.getActiveNetworkInfo();
+        if (active != null && active.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 
 
