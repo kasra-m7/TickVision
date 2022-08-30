@@ -1,0 +1,31 @@
+[33mf39c144[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m stash
+[33m6b643d3[m[33m ([m[1;31morigin/master[m[33m)[m fix btnReceiveClick and btnPaymentClick
+[33m1e680e6[m[33m ([m[1;31morigin/receive[m[33m, [m[1;32mreceive[m[33m)[m fix table info
+[33m15ab062[m create get and set timer
+[33m9bf2f4a[m commit set table text
+[33m263c0c7[m create set on click btn payment
+[33m4633b86[m create on click btn receive
+[33m8f13e86[m[33m ([m[1;31morigin/fixTwo[m[33m, [m[1;32mfixTwo[m[33m)[m create btn receive set on click listener
+[33mf67de1e[m create class get price in server
+[33m017c9ee[m fix this two
+[33me526b6e[m create btn receive and btn payment and this dialog
+[33m365b8c4[m create add dialog and create select dialog xml , java
+[33m438f741[m fix floating action button
+[33mdbaaa16[m fix this
+[33meba13cd[m create personal toast and create class create vision table
+[33m119a97e[m create action button and add vision dialog
+[33m2f4d196[m create timer service and writed btn start timer click listener
+[33m1fcf18a[m create table and date views
+[33m2b504cf[m create layout table view and date view
+[33mcbe49a4[m create floating action button
+[33m9efe064[m[33m ([m[1;31morigin/menu[m[33m, [m[1;32mmenu[m[33m)[m add
+[33md796dc8[m fix act signup and act login with loading dialog
+[33mddd64a0[m create loading dialog layout
+[33mffe5d0f[m create act login xml and java
+[33m4922218[m create signup java
+[33m86bbc43[m create signup xml
+[33m5c5b5ae[m create act splash xml and java
+[33m7a8a4d0[m create dimens xml
+[33maf36639[m set themes xml
+[33mc2ea166[m create colors xml
+[33m3255529[m initial project

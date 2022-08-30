@@ -40,6 +40,8 @@ import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import ir.mahchegroup.vision.data_time.ChangeDate;
@@ -520,8 +522,8 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     private void createSelectVisionDialog() {
-        nameVisionResult.clear();
-        isTickResult.clear();
+//        nameVisionResult.clear();
+//        isTickResult.clear();
 
 
         // ساخت دیالوگ انتخاب هدف
@@ -531,9 +533,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rv = selectVisionDialog.findViewById(R.id.rv_select_vision_dialog);
         Button btnOk = selectVisionDialog.findViewById(R.id.btn_ok_select_vision_dialog);
         Button btnCancel = selectVisionDialog.findViewById(R.id.btn_cancel_select_vision_dialog);
-        selectVisionDialog.getWindow().getAttributes().windowAnimations = R.style.animDialog;
-        selectVisionDialog.create();
-        selectVisionDialog.show();
+//        selectVisionDialog.getWindow().getAttributes().windowAnimations = R.style.animDialog;
 
 
         // مقدار دهی اولیه ریسایکلرویو
@@ -544,19 +544,24 @@ public class MainActivity extends AppCompatActivity {
         adapter = new SelectVisionAdapter(selectVisionDialog.getContext(), rvItems);
         rv.setAdapter(adapter);
 
+        selectVisionDialog.create();
+        selectVisionDialog.show();
+
 
         // ارسال اطالاعات به سرور جهت گرفتن و نمایش تمام هدف های کاربر
         userTbl = ActSplash.shared.getString(UserItems.USER_TABLE_NAME, "");
+
         getItemVisions.getItemVision(userTbl);
 
         getItemVisions.setOnGetItemVisions(() -> {
 
-            nameVisionResult = getItemVisions.getNameVisionsResult();
-            isTickResult = getItemVisions.getIsTickResult();
+            nameVisionResult = getItemVisions.getNameVisionResult();
+            isTickResult = getItemVisions.getIsTickVisionResult();
 
-            for (int i = 1; i < nameVisionResult.size(); i++) {
+            for (int i = 1; i < isTickResult.size(); i++) {
                 rvItems.add(new RvItemsSelectVision(nameVisionResult.get(i), isTickResult.get(i)));
             }
+
             adapter.notifyDataSetChanged();
         });
 
@@ -808,9 +813,6 @@ public class MainActivity extends AppCompatActivity {
 
         btnStartTimerService = findViewById(R.id.timer_on_off);
 
-        nameVisionResult = new ArrayList<>();
-        isTickResult = new ArrayList<>();
-
         startTimer = new Intent(MainActivity.this, TimerService.class);
 
         FloatingActionMenu menu = findViewById(R.id.menu);
@@ -851,6 +853,9 @@ public class MainActivity extends AppCompatActivity {
         setTimerNumInServer = new SetTimerNumInServer();
 
         getTimerNumFromServer = new GetTimerNumFromServer();
+
+        nameVisionResult = new ArrayList<>();
+        isTickResult = new ArrayList<>();
     }
 
 

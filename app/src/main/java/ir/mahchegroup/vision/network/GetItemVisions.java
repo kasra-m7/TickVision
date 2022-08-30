@@ -1,24 +1,20 @@
 package ir.mahchegroup.vision.network;
 
 import android.util.Log;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import java.util.ArrayList;
 import ir.mahchegroup.vision.UserItems;
 
 public class GetItemVisions {
-    private final ArrayList<String> nameVisionsResult;
-    private final ArrayList<String> isTickResult;
+    private ArrayList<String> nameVisionResult;
+    private ArrayList<String> isTickVisionResult;
     private OnGetItemVisions onGetItemVisions;
 
 
     public GetItemVisions() {
-        nameVisionsResult = new ArrayList<>();
-        isTickResult = new ArrayList<>();
         onGetItemVisions = null;
     }
 
@@ -28,13 +24,12 @@ public class GetItemVisions {
     }
 
 
-    public ArrayList<String> getNameVisionsResult() {
-        return nameVisionsResult;
+    public ArrayList<String> getNameVisionResult() {
+        return nameVisionResult;
     }
 
-
-    public ArrayList<String> getIsTickResult() {
-        return isTickResult;
+    public ArrayList<String> getIsTickVisionResult() {
+        return isTickVisionResult;
     }
 
     public void getItemVision(String userTbl) {
@@ -46,19 +41,26 @@ public class GetItemVisions {
                     @Override
                     public void onResponse(JSONArray response) {
 
+                        nameVisionResult = new ArrayList<>();
+                        isTickVisionResult = new ArrayList<>();
+
                         try {
+
                             for (int i = 0; i < response.length(); i++) {
-                                JSONObject jo = response.getJSONObject(i);
-                                String nameVision = jo.getString("name_vision");
-                                nameVisionsResult.add(nameVision);
+                                JSONArray jo = response.getJSONArray(i);
 
-                                String isTick = jo.getString("is_tick");
-                                isTickResult.add(isTick);
+                                String name = jo.getString(0);
+                                nameVisionResult.add(name);
+
+                                String isTick = jo.getString(1);
+                                isTickVisionResult.add(isTick);
                             }
-                        } catch (Exception ignore) {
-                        }
 
-                        onGetItemVisions.onGetItemVisions();
+                            onGetItemVisions.onGetItemVisions();
+
+                        }catch (Exception e) {
+                            Log.e("catch get item visions", e.getMessage());
+                        }
 
                     }
 
@@ -67,6 +69,7 @@ public class GetItemVisions {
                         Log.e("get item visions", anError.toString());
                     }
                 });
+
     }
 
 
