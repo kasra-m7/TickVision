@@ -3,13 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="370dp"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
     android:layoutDirection="rtl">
 
     <LinearLayout
         android:layout_width="370dp"
-        android:layout_height="325dp"
-        android:layout_centerInParent="true"
+        android:layout_height="330dp"
         android:orientation="vertical"
         android:background="@drawable/background"
         tools:ignore="UselessParent">
@@ -29,8 +27,8 @@
             android:text="@string/selectVisionDialogText"
             android:textColor="@color/primaryColor"
             android:layout_gravity="center"
-            android:textSize="@dimen/smallTextSize"
-            android:fontFamily="@font/iran_sans"/>
+            android:textSize="@dimen/normalTextSize"
+            android:fontFamily="@font/iran_sans_bold"/>
 
         <View
             android:layout_width="300dp"
@@ -38,6 +36,13 @@
             android:background="@color/primaryColor"
             android:layout_gravity="center"
             android:layout_marginTop="6dp"/>
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="3dp"
+            android:background="@color/primaryColor"
+            android:layout_gravity="center"
+            android:layout_marginTop="1.5dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_select_vision_dialog"
@@ -53,10 +58,17 @@
 
         <View
             android:layout_width="300dp"
+            android:layout_height="3dp"
+            android:background="@color/primaryColor"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <View
+            android:layout_width="300dp"
             android:layout_height="1.5dp"
             android:background="@color/primaryDarkColor"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="1.5dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -66,29 +78,29 @@
             <Button
                 android:id="@+id/btn_ok_select_vision_dialog"
                 android:layout_width="110dp"
-                android:layout_height="38dp"
+                android:layout_height="35dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="30dp"
                 android:background="@drawable/btn_background_primary"
                 android:fontFamily="@font/iran_sans_bold"
                 android:text="@string/select"
                 android:textColor="@color/primaryUltraLightColor"
-                android:textSize="@dimen/btnTextSize"
+                android:textSize="@dimen/normalTextSize"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <Button
                 android:id="@+id/btn_cancel_select_vision_dialog"
                 android:layout_width="110dp"
-                android:layout_height="38dp"
+                android:layout_height="35dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="30dp"
                 android:background="@drawable/btn_background_primary"
                 android:fontFamily="@font/iran_sans_bold"
                 android:text="@string/cancelText"
                 android:textColor="@color/primaryUltraLightColor"
-                android:textSize="@dimen/btnTextSize"
+                android:textSize="@dimen/normalTextSize"
                 tools:ignore="TouchTargetSizeCheck" />
 
         </RelativeLayout>

@@ -40,7 +40,7 @@ public class SelectVisionAdapter extends RecyclerView.Adapter<SelectVisionAdapte
 
         holder.tvVisionName.setText(items.getVisionName());
 
-        holder.imgIsTickVision.setImageResource(items.getIsTickVision().equals("0") ? R.drawable.cancel_rv : R.drawable.ok_rv);
+        holder.imgIsTickVision.setImageResource(items.getIsTickVision().equals("0") ? R.drawable.cancel_rv : R.drawable.red_ok);
     }
 
     @Override

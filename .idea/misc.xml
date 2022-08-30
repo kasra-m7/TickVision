@@ -21,6 +21,7 @@
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/edit_icon.xml" value="0.148" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/edt_background.xml" value="0.148" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/edt_background_blue.xml" value="0.148" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/edt_background_red.xml" value="0.1365" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/email.xml" value="0.1475" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/key.xml" value="0.1475" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/drawable/light_cursor.xml" value="0.1475" />
@@ -60,7 +61,7 @@
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/ok_toast.xml" value="0.26875" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/payment_dialog_layout.xml" value="0.23148148148148148" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/receive_dialog_layout.xml" value="0.23148148148148148" />
-        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/select_vision_dialog_layout.xml" value="0.23148148148148148" />
+        <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/select_vision_dialog_layout.xml" value="0.2597254004576659" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/select_vision_rv_item.xml" value="0.26875" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/table_view.xml" value="0.26875" />
         <entry key="..\:/Android/AndroidStudio/TickVision/app/src/main/res/layout/toast_messag.xml" value="0.26875" />

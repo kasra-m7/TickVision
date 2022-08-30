@@ -10,7 +10,6 @@
     </style>
 
     <style name="fullScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowDisablePreview">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 

@@ -3,7 +3,7 @@
     <color name="primaryColor">#AD1457</color>
     <color name="transPrimaryColor">#80AD1457</color>
     <color name="primaryLightColor">#EA1B76</color>
-    <color name="primaryUltraLightColor">#FFF4F9</color>
+    <color name="primaryUltraLightColor">#FFFAFC</color>
     <color name="primaryDarkColor">#800F40</color>
     <color name="accentColor">#1E9DF1</color>
     <color name="green">#14AE2E</color>

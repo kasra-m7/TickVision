@@ -10,8 +10,7 @@
         android:id="@+id/imgSplash"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/img_splash"
-        android:visibility="invisible"
+        android:src="@drawable/logo_background"
         android:layout_centerInParent="true"
         tools:ignore="ContentDescription" />
 

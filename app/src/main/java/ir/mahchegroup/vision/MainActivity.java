@@ -10,7 +10,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -32,16 +31,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.navigation.NavigationView;
-
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
-
 import ir.mahchegroup.vision.data_time.ChangeDate;
 import ir.mahchegroup.vision.data_time.ShamsiCalendar;
 import ir.mahchegroup.vision.message_box.LoadingDialog;
@@ -230,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnCancel = receiveDialog.findViewById(R.id.btn_cancel_receive);
         receiveDialog.getWindow().getAttributes().windowAnimations = R.style.animDialog;
 
+        new Handler().postDelayed(() -> UIUtil.showKeyboard(receiveDialog.getContext(), edtReceive), 200);
+
         getPriceFromServer.getPriceFromServer(visionTblName, dateVision);
 
         getPriceFromServer.setOnGetPriceFromServerListener(() -> {
@@ -327,6 +324,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnCancel = paymentDialog.findViewById(R.id.btn_cancel_payment);
         paymentDialog.getWindow().getAttributes().windowAnimations = R.style.animDialog;
 
+        new Handler().postDelayed(() -> UIUtil.showKeyboard(paymentDialog.getContext(), edtPayment), 200);
+
         getPriceFromServer.getPriceFromServer(visionTblName, dateVision);
 
         getPriceFromServer.setOnGetPriceFromServerListener(() -> {
@@ -344,14 +343,11 @@ public class MainActivity extends AppCompatActivity {
         paymentDialog.create();
         paymentDialog.show();
 
-        voice.setOnClickListener(view -> {
-            toast.showToast("امکان ثبت صوتی مبلغ به زودی به برنامه اضافه خواهد شد", false);
-        });
+        voice.setOnClickListener(view -> toast.showToast("امکان ثبت صوتی مبلغ به زودی به برنامه اضافه خواهد شد", false));
 
         btnCancel.setOnClickListener(view -> paymentDialog.dismiss());
 
         btnSave.setOnClickListener(view -> {
-            Log.e("leftover payment", netLeftover);
             strMoney = edtPayment.getText().toString().trim();
 
             if (TextUtils.isEmpty(strMoney)) {
@@ -675,9 +671,11 @@ public class MainActivity extends AppCompatActivity {
 
             setTextTableInfo();
 
-            S = Integer.parseInt(netSs);
-            M = Integer.parseInt(netMm);
-            H = Integer.parseInt(netHh);
+            if (!isRunTimerService) {
+                S = Integer.parseInt(netSs);
+                M = Integer.parseInt(netMm);
+                H = Integer.parseInt(netHh);
+            }
 
             setTvTimerText();
         });
