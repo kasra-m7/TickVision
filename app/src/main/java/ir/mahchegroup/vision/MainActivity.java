@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView voice = receiveDialog.findViewById(R.id.btn_voice_receive);
         Button btnSave = receiveDialog.findViewById(R.id.btn_ok_receive);
         Button btnCancel = receiveDialog.findViewById(R.id.btn_cancel_receive);
+        receiveDialog.getWindow().getAttributes().windowAnimations = R.style.animDialog;
 
         getPriceFromServer.getPriceFromServer(visionTblName, dateVision);
 
@@ -323,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView voice = paymentDialog.findViewById(R.id.btn_voice_payment);
         Button btnSave = paymentDialog.findViewById(R.id.btn_ok_payment);
         Button btnCancel = paymentDialog.findViewById(R.id.btn_cancel_payment);
+        paymentDialog.getWindow().getAttributes().windowAnimations = R.style.animDialog;
 
         getPriceFromServer.getPriceFromServer(visionTblName, dateVision);
 
@@ -402,6 +404,7 @@ public class MainActivity extends AppCompatActivity {
         EditText edtDayVision = addVisionDialog.findViewById(R.id.edt_day_vision);
         Button btnSave = addVisionDialog.findViewById(R.id.btn_save_add_vision_dialog);
         Button btnCancel = addVisionDialog.findViewById(R.id.btn_cancel_add_vision_dialog);
+        addVisionDialog.getWindow().getAttributes().windowAnimations = R.style.animDialog;
         addVisionDialog.create();
         addVisionDialog.show();
 

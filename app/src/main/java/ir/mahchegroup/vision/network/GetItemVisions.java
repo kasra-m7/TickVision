@@ -1,12 +1,10 @@
 package ir.mahchegroup.vision.network;
 
 import android.util.Log;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import java.util.ArrayList;
 import ir.mahchegroup.vision.UserItems;
 
@@ -48,11 +46,11 @@ public class GetItemVisions {
 
                         try {
                             for (int i = 0; i < response.length(); i++) {
-                                JSONObject jo = response.getJSONObject(i);
-                                String nameVision = jo.getString("name_vision");
+                                JSONArray ja = response.getJSONArray(i);
+                                String nameVision = ja.getString(0);
                                 nameVisionsResult.add(nameVision);
 
-                                String isTick = jo.getString("is_tick");
+                                String isTick = ja.getString(1);
                                 isTickResult.add(isTick);
                             }
                         } catch (Exception ignore) {
