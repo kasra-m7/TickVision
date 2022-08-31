@@ -1,5 +1,6 @@
 package ir.mahchegroup.vision.network;
 
+import android.content.Context;
 import android.util.Log;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
@@ -10,10 +11,14 @@ import ir.mahchegroup.vision.UserItems;
 public class GetUser {
     private ArrayList<String> result;
     private OnAddUserListener onAddUserListener;
+    Context ctx;
 
 
-    public GetUser() {
+    public GetUser(Context ctx)
+    {
         onAddUserListener = null;
+        this.ctx = ctx;
+
     }
 
 

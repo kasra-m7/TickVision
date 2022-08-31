@@ -20,6 +20,7 @@ public class ActSplash extends AppCompatActivity {
     public static SharedPreferences shared;
     public static SharedPreferences.Editor editor;
     private boolean isFirstTime;
+    public static boolean connection = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class ActSplash extends AppCompatActivity {
             finish();
         } else {
 
+            connection = true;
             // چک کردن اولین ورود کاربر به اپ
             isFirstTime = shared.getBoolean(IS_FIRST_TIME, true);
 

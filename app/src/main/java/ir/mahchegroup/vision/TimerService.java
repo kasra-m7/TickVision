@@ -47,7 +47,7 @@ public class TimerService extends Service {
 
         setTimer();
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Override

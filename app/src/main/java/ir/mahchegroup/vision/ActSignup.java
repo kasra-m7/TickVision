@@ -15,7 +15,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.florent37.materialtextfield.MaterialTextField;
 
@@ -38,6 +37,7 @@ public class ActSignup extends AppCompatActivity {
     private SnackBar snackBar;
     private Typeface tfb, tf;
     private ToastBox toast;
+    public static Timer timerSingup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +55,6 @@ public class ActSignup extends AppCompatActivity {
         setTypefaceMtf(mtfRepeatPassword);
 
 
-        checkConnection();
-
-
         // رویداد کلیک دکمه حساب کاربری دارم
         btnSignupToLogin.setOnClickListener(view -> {
             closeMtf();
@@ -69,23 +66,25 @@ public class ActSignup extends AppCompatActivity {
         btnSignup.setOnClickListener(view -> {
             closeMtf();
 
-            LoadingDialog loading = new LoadingDialog(ActSignup.this);
-            loading.ShowDialog();
+            getEdtText();
 
-            new Handler().postDelayed(() -> {
+            if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(username) || TextUtils.isEmpty(password) || TextUtils.isEmpty(repeatPassword)) {
+                snackBar.create(getResources().getString(R.string.completeFields), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
+            }else {
 
-                getEdtText();
+                LoadingDialog loading = new LoadingDialog(ActSignup.this);
+                loading.ShowDialog();
 
-                if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(username) || TextUtils.isEmpty(password) || TextUtils.isEmpty(repeatPassword)) {
-                    loading.dismissDialog();
-                    snackBar.create(getResources().getString(R.string.completeFields), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
-                } else {
+                new Handler().postDelayed(() -> {
 
                     if (!password.equals(repeatPassword)) {
                         loading.dismissDialog();
                         snackBar.create(getResources().getString(R.string.unMatchRepeatPass), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
 
                     } else {
+
+                        checkConnection();
+
                         addUser.addUser(mail, username, password);
 
                         addUser.setOnAddUserListener(() -> {
@@ -115,8 +114,8 @@ public class ActSignup extends AppCompatActivity {
                             }
                         });
                     }
-                }
-            }, 3400);
+                }, 3400);
+            }
         });
     }
 
@@ -128,16 +127,15 @@ public class ActSignup extends AppCompatActivity {
 
 
     private void checkConnection() {
-        new Handler().postDelayed(() -> {
-            if (!isConnect()) {
-                Intent intent = new Intent(ActSignup.this, ActDisconnect.class);
-                intent.putExtra("activity", "ActLogin");
-                startActivity(intent);
-                overridePendingTransition(0, 0);
-                finish();
-            }
-            checkConnection();
-        }, 1000);
+        if (!isConnect()) {
+            Intent intent = new Intent(ActSignup.this, ActDisconnect.class);
+            intent.putExtra("activity", "ActSignup");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+            finish();
+        }
     }
 
 

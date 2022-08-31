@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/reset" android:id="@+id/reset" android:icon="@drawable/restore"/>
+    <item android:title="@string/export" android:id="@+id/export" android:icon="@drawable/export"/>
+    <item android:title="@string/setting" android:id="@+id/setting" android:icon="@drawable/setting"/>
+    <item android:title="@string/contact">
+        <menu>
+            <item android:title="@string/email" android:id="@+id/email" android:icon="@drawable/email"/>
+            <item android:title="@string/whatsapp" android:id="@+id/contact" android:icon="@drawable/whatsapp"/>
+            <item android:title="@string/call" android:id="@+id/call" android:icon="@drawable/call"/>
+        </menu>
+    </item>
+    <item android:title="@string/another">
+        <menu>
+            <item android:title="@string/idea" android:id="@+id/idea" android:icon="@drawable/idea"/>
+            <item android:title="@string/aboutUs" android:id="@+id/about" android:icon="@drawable/about"/>
+            <item android:title="@string/myApp" android:id="@+id/myApp" android:icon="@drawable/more"/>
+        </menu>
+    </item>
+    <item android:title="@string/exitTitle">
+        <menu>
+            <item
+                android:id="@+id/exit_account"
+                android:icon="@drawable/exit_account"
+                android:title="@string/exitAccount" />
+            <item
+                android:id="@+id/exit"
+                android:icon="@drawable/exit"
+                android:title="@string/exit" />
+        </menu>
+    </item>
+</menu>

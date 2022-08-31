@@ -56,4 +56,18 @@
     <string name="receive_text">ثبت مبلغ دریافتی</string>
     <string name="payment_text">ثبت مبلغ پرداختی</string>
     <string name="moneyError">لطفا فیلد مربوط به مبلغ را تکمیل نمائید</string>
+    <string name="exitAccount">خروج از حساب کاربری</string>
+    <string name="exit">خروج از برنامه</string>
+    <string name="reset">صفر کردن مقادیر</string>
+    <string name="export">گرفتن خروجی از مقادیر هدف</string>
+    <string name="setting">تنظیمات برنامه</string>
+    <string name="aboutUs">درباره ما</string>
+    <string name="contact">تماس با ما</string>
+    <string name="email">ارسال ایمیل</string>
+    <string name="whatsapp">ارسال پیامک در واتساپ</string>
+    <string name="call">تماس تلفنی</string>
+    <string name="another">سایر</string>
+    <string name="idea">بیان نظرات</string>
+    <string name="myApp">سایر برنامه های ما</string>
+    <string name="exitTitle">خروج</string>
 </resources>

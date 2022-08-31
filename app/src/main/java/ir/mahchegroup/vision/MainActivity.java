@@ -50,6 +50,7 @@ import ir.mahchegroup.vision.network.GetTimerNumFromServer;
 import ir.mahchegroup.vision.network.GetVisionInfo;
 import ir.mahchegroup.vision.network.GetVisionTableName;
 import ir.mahchegroup.vision.network.HasVision;
+import ir.mahchegroup.vision.network.ResetVisionInfo;
 import ir.mahchegroup.vision.network.SetPriceInServer;
 import ir.mahchegroup.vision.network.SetTickVision;
 import ir.mahchegroup.vision.network.SetTimerNumInServer;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     private Animation tickIn, tickOut;
     private SetTickVision setTickVision;
     private LinearLayout disableLayout, enableLayout;
+    private ResetVisionInfo resetVisionInfo;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
-    @SuppressLint({"NonConstantResourceId", "InflateParams"})
+    @SuppressLint({"NonConstantResourceId", "InflateParams", "RtlHardcoded"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,11 +214,51 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        setNavigationItemSelected();
+    }
+
+
+    @SuppressLint("NonConstantResourceId")
+    private void setNavigationItemSelected() {
+        navigation.setNavigationItemSelectedListener(item -> {
+
+            int id = item.getItemId();
+
+            switch (id) {
+                case R.id.reset:
+                    resetVisionInfo.resetVisionInfo(visionTblName, dateVision, netOneDayVision);
+
+                    resetVisionInfo.setOnResetVisionInfoListener(() -> {
+                        String result = resetVisionInfo.getResult();
+
+                        if (result.equals("success")) {
+
+                            getVisionInfo();
+                            getVisionTableInfo();
+                        } else {
+                            toast.showToast(getResources().getString(R.string.fault),false);
+                        }
+                    });
+                    break;
+
+                case R.id.setting:
+
+                    break;
+            }
+            drawer.closeDrawer(Gravity.RIGHT);
+            return true;
+        });
     }
 
 
     @SuppressLint("InflateParams")
     private void createReceiveDialog() {
+
+        if (menu.isOpened()) {
+            menu.close(true);
+        }
+
         Dialog receiveDialog = new Dialog(this);
         receiveDialog.setContentView(R.layout.receive_dialog_layout);
         EditText edtReceive = receiveDialog.findViewById(R.id.edt_receive);
@@ -316,6 +358,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void createPaymentDialog() {
+
+
+        if (menu.isOpened()) {
+            menu.close(true);
+        }
+
+
         Dialog paymentDialog = new Dialog(this);
         paymentDialog.setContentView(R.layout.payment_dialog_layout);
         EditText edtPayment = paymentDialog.findViewById(R.id.edt_payment);
@@ -899,6 +948,8 @@ public class MainActivity extends AppCompatActivity {
         disableLayout = findViewById(R.id.disableLayout);
 
         enableLayout = findViewById(R.id.enableLayout);
+
+        resetVisionInfo = new ResetVisionInfo();
     }
 
 

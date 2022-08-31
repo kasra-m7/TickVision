@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -53,9 +54,6 @@ public class ActLogin extends AppCompatActivity {
 
         setTypefaceMtf(mtfUserMail);
         setTypefaceMtf(mtfPassword);
-
-
-        checkConnection();
 
 
         // رویداد کلیک دکمه ایجاد حساب کاربری جدید
@@ -110,6 +108,7 @@ public class ActLogin extends AppCompatActivity {
                     snackBar.create(getResources().getString(R.string.completeFields), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
 
                 } else {
+                    checkConnection();
                     getUser.getUser(userMail, password);
 
                     getUser.setOnAddUserListener(() -> {
@@ -126,6 +125,9 @@ public class ActLogin extends AppCompatActivity {
                             ActSplash.editor.apply();
 
                             String userTable = list.get(1) + "_tbl";
+
+                            checkConnection();
+
                             createUserTable.createUserTable(userTable);
 
                             loading.dismissDialog();
@@ -135,29 +137,27 @@ public class ActLogin extends AppCompatActivity {
 
                         } else {
                             loading.dismissDialog();
+                            checkConnection();
                             snackBar.create(getResources().getString(R.string.wrongUser), getResources().getColor(R.color.primaryColor), getResources().getColor(R.color.primaryUltraLightColor), getResources().getColor(R.color.accentLightColor));
                         }
                     });
                 }
-
             }, 1900);
         });
     }
 
 
     private void checkConnection() {
-        new Handler().postDelayed(() -> {
-            if (!isConnect()) {
-                Intent intent = new Intent(ActLogin.this, ActDisconnect.class);
-                intent.putExtra("activity", "ActLogin");
-                startActivity(intent);
-                overridePendingTransition(0, 0);
-                finish();
-            }
-            checkConnection();
-        }, 1000);
+        if (!isConnect()) {
+            Intent intent = new Intent(ActLogin.this, ActDisconnect.class);
+            intent.putExtra("activity", "ActLogin");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(0,0);
+            finish();
+        }
     }
-
 
     private boolean isConnect() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -217,7 +217,7 @@ public class ActLogin extends AppCompatActivity {
 
         snackBar = new SnackBar(this, snackLayout);
 
-        getUser = new GetUser();
+        getUser = new GetUser(this);
 
         createUserTable = new CreateUserTable();
     }

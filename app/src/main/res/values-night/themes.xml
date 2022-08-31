@@ -10,7 +10,6 @@
     </style>
 
     <style name="fullScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowDisablePreview">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 
@@ -33,5 +32,10 @@
         <item name="android:textSize">@dimen/numberTextSize</item>
         <item name="menu_labels_margin">10dp</item>
         <item name="android:textColor">@color/primaryColor</item>
+    </style>
+    <style name="navi" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="fontFamily">@font/iran_sans</item>
+        <item name="android:scrollbarThumbVertical">@color/transparent</item>
+        <item name="android:textSize">15sp</item>
     </style>
 </resources>
